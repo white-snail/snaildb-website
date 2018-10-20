@@ -1,0 +1,17 @@
+.dub
+docs.json
+__dummy.html
+docs/
+snaildb-website.so
+snaildb-website.dylib
+snaildb-website.dll
+snaildb-website.a
+snaildb-website.lib
+snaildb-website-test-*
+*.exe
+*.o
+*.obj
+*.lst
+
+snaildb-website
+*.json

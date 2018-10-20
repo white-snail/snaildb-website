@@ -1,0 +1,6 @@
+name "snaildb-website"
+description "SnailDB website"
+authors "Kasokuz"
+copyright "Copyright © 2018, Kasokuz"
+license "MIT"
+dependency "lighttp" version="~>0.3.0"
