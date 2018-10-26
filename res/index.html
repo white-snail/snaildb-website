@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="UTF-8" />
 		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
 		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
 		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
 		<link rel="stylesheet" href="https://picturepan2.github.io/spectre/dist/docs.min.css">
-		<script src="script/util.js"></script>
-		<script src="script/core.js"></script>
-		<script src="script/lang.js"></script>
-		<script src="script/snail.js"></script>
+		<script src="/script/util.js"></script>
+		<script src="/script/core.js"></script>
+		<script src="/script/lang.js"></script>
+		<script src="/script/snail.js"></script>
 		<style>
 			section {
 				display: none;
@@ -27,27 +28,65 @@
 			</div>
 			<div id="sidebar" class="docs-sidebar off-canvas-sidebar">
 				<div class="docs-brand">
-					<a class="docs-logo" href="javascript:go('/')">
+					<a class="docs-logo" href="/">
 						<h2>SNAILDB</h2>
 					</a>
 				</div>
 				<div class="docs-nav">
-					<div>
-						<a>ABOUT</a>
-					</div>
-					<div>
-						<label onclick="go('/snail')" class="lang" data-lang="snails">SNAILS</label>
-					</div>
+					<ul class="nav">
+						<li class="nav-item">
+							<a href="/about" class="lang" data-lang="about"></a>
+						</li>
+					</ul>
+					<ul class="nav">
+						<li class="nav-item">
+							<a href="/snail" class="lang" data-lang="snails"></a>
+						</li>
+					</ul>
+					<ul class="nav">
+						<li class="nav-item">
+							<label class="form-label lang" data-lang="search"></label>
+							<div class="has-icon-right">
+								<form onsubmit="search(event)">
+									<input class="form-input input-sm search" type="text" />
+									<i class="form-icon icon icon-search"></i>
+								</form>
+							</div>
+						</li>
+					</ul>
 				</div>
 			</div>
 			<a class="off-canvas-overlay" href="#close"></a>
 			<div class="off-canvas-content">
 				<div class="docs-content">
 					<section id="index">
-						Welcome to SnailDB
+						<h3 class="lang" data-lang="welcome"></h3>
 					</section>
 					<section id="notfound">
-						Page not found
+						<div class="empty">
+							<div class="empty-icon">
+								<i class="icon icon-3x icon-stop"></i>
+							</div>
+							<p class="empty-title h5 lang" data-lang="notfound"></p>
+							<p class="empty-subtitle lang" data-lang="notfound-desc"></p>
+							<div class="empty-action">
+								<form onsubmit="search(event)">
+									<div class="input-group input-inline">
+										<input class="form-input search" type="text" />
+										<button class="btn btn-primary input-group-btn lang" data-lang="search"></button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</section>
+					<section id="error">
+						<div class="empty">
+							<div class="empty-icon">
+								<i class="icon icon-3x icon-refresh" onclick="window.location.reload()"></i>
+							</div>
+							<p class="empty-title h5 lang" data-lang="error"></p>
+							<p class="empty-subtitle lang" data-lang="error-desc"></p>
+						</div>
 					</section>
 					<section id="snail">
 					

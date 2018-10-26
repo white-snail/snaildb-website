@@ -14,4 +14,4 @@ snaildb-website-test-*
 *.lst
 
 snaildb-website
-*.json
+*.selections.json

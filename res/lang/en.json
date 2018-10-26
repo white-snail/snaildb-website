@@ -1,0 +1,19 @@
+{
+	
+	"welcome": "Welcome on SnailDB",
+	"notfound": "Page not found",
+	"notfound-desc": "The page at the requested address does not exist or it has been moved",
+	"error": "Cannot connect to the database",
+	"error-desc": "It is possible that there is no internet connection or the API server is down",
+	
+	"snails": "Snails",
+	"search": "Search",
+	
+	"superfamilies": "Superfamilies",
+	"superfamily": "superfamily",
+	"family": "family",
+	"genus": "gene",
+	"species": "species",
+	"subspecies": "subspecies"
+	
+}

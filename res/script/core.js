@@ -131,15 +131,13 @@ function updateUri() {
 	}
 	
 	function notFound() {
+		document.title = getLang("notfound");
 		showSection("notfound");
 	}
 	
 }
 
-function go(uri) {
-	history.pushState({}, "", uri);
-	updateUri();
-}
-
-window.onload = updateUri;
+window.addEventListener("load", registerAllLinks);
+window.addEventListener("load", registerSearch);
+window.addEventListener("load", updateUri);
 window.onpopstate = updateUri;
