@@ -2,100 +2,84 @@
 <html>
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
-		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
-		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
-		<link rel="stylesheet" href="https://picturepan2.github.io/spectre/dist/docs.min.css">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet" />
+		<link href="/style/main.css" rel="stylesheet" />
 		<script src="/script/util.js"></script>
 		<script src="/script/core.js"></script>
 		<script src="/script/lang.js"></script>
 		<script src="/script/snail.js"></script>
-		<style>
-			section {
-				display: none;
-			}
-			h2 {
-				display: inline-block;
-			}
-		</style>
 	</head>
 	<body>
-		<div class="docs-container off-canvas off-canvas-sidebar-show">
-			<div class="docs-navbar">
-				<a class="off-canvas-toggle btn btn-primary btn-action" href="#sidebar">
-					<i class="icon icon-menu"></i>
-				</a>
-			</div>
-			<div id="sidebar" class="docs-sidebar off-canvas-sidebar">
-				<div class="docs-brand">
-					<a class="docs-logo" href="/">
-						<h2>SNAILDB</h2>
-					</a>
+		<div id="sidebar">
+			<a href="/">
+				<img src="/img/logo.png" style="vertical-align:-36px" />
+				<h3 style="display:inline-block">SNAILDB</h3>
+			</a>
+			<ul class="nav">
+				<li class="nav-item">
+					<a href="/about" class="lang" data-lang="about"></a>
+				</li>
+			</ul>
+			<ul class="nav">
+				<li class="nav-item">
+					<a href="/snail" class="lang" data-lang="snails"></a>
+				</li>
+			</ul>
+			<ul class="nav">
+				<li class="nav-item">
+					<label class="form-label lang" data-lang="search"></label>
+					<div class="has-icon-right">
+						<form onsubmit="search(event)">
+							<input class="form-input input-sm search" type="text" />
+							<i class="form-icon icon icon-search"></i>
+						</form>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div id="container">
+			<header>
+				<h1 id="title">Welcome</h1>
+			</header>
+			<section id="index">
+				<h3 class="lang" data-lang="welcome"></h3>
+				<p class="lang" data-lang="welcome-desc"></p>
+			</section>
+			<section id="notfound">
+				<div class="empty">
+					<div class="empty-icon">
+						<i class="icon icon-3x icon-stop"></i>
+					</div>
+					<p class="empty-title h5 lang" data-lang="notfound"></p>
+					<p class="empty-subtitle lang" data-lang="notfound-desc"></p>
+					<div class="empty-action">
+						<form onsubmit="search(event)">
+							<div class="input-group input-inline">
+								<input class="form-input search" type="text" />
+								<button class="btn btn-primary input-group-btn lang" data-lang="search"></button>
+							</div>
+						</form>
+					</div>
 				</div>
-				<div class="docs-nav">
-					<ul class="nav">
-						<li class="nav-item">
-							<a href="/about" class="lang" data-lang="about"></a>
-						</li>
-					</ul>
-					<ul class="nav">
-						<li class="nav-item">
-							<a href="/snail" class="lang" data-lang="snails"></a>
-						</li>
-					</ul>
-					<ul class="nav">
-						<li class="nav-item">
-							<label class="form-label lang" data-lang="search"></label>
-							<div class="has-icon-right">
-								<form onsubmit="search(event)">
-									<input class="form-input input-sm search" type="text" />
-									<i class="form-icon icon icon-search"></i>
-								</form>
-							</div>
-						</li>
-					</ul>
+			</section>
+			<section id="error">
+				<div class="empty">
+					<div class="empty-icon">
+						<i class="icon icon-3x icon-refresh" onclick="window.location.reload()"></i>
+					</div>
+					<p class="empty-title h5 lang" data-lang="error"></p>
+					<p class="empty-subtitle lang" data-lang="error-desc"></p>
 				</div>
-			</div>
-			<a class="off-canvas-overlay" href="#close"></a>
-			<div class="off-canvas-content">
-				<div class="docs-content">
-					<section id="index">
-						<h3 class="lang" data-lang="welcome"></h3>
-					</section>
-					<section id="notfound">
-						<div class="empty">
-							<div class="empty-icon">
-								<i class="icon icon-3x icon-stop"></i>
-							</div>
-							<p class="empty-title h5 lang" data-lang="notfound"></p>
-							<p class="empty-subtitle lang" data-lang="notfound-desc"></p>
-							<div class="empty-action">
-								<form onsubmit="search(event)">
-									<div class="input-group input-inline">
-										<input class="form-input search" type="text" />
-										<button class="btn btn-primary input-group-btn lang" data-lang="search"></button>
-									</div>
-								</form>
-							</div>
-						</div>
-					</section>
-					<section id="error">
-						<div class="empty">
-							<div class="empty-icon">
-								<i class="icon icon-3x icon-refresh" onclick="window.location.reload()"></i>
-							</div>
-							<p class="empty-title h5 lang" data-lang="error"></p>
-							<p class="empty-subtitle lang" data-lang="error-desc"></p>
-						</div>
-					</section>
-					<section id="snail">
-					
-					</section>
-					<section id="loading">
-						<div class="loading loading-lg"></div>
-					</section>
-				</div>
-			</div>
+			</section>
+			<section id="snail">
+			
+			</section>
+			<section id="loading">
+				<div class="loading loading-lg"></div>
+			</section>
+			<footer>
+				© 2018 Kasokuz
+			</footer>
 		</div>
 	</body>
 </html>

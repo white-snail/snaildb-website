@@ -11,9 +11,34 @@ function get(uri, callback) {
 	request.send();
 }
 
+function post(uri, params, callback) {
+	var request = new XMLHttpRequest();
+	request.onload = () => callback(JSON.parse(request.responseText));
+	request.onerror = () => {
+		document.title = getLang("error");
+		showSection("error");
+	};
+	request.open("POST", API + uri);
+	request.send(params);
+}
+
 function go(uri) {
 	history.pushState({}, "", uri);
 	updateUri();
+}
+
+function setTitle(title, translation) {
+	document.title = title + " | The Snail Database";
+	document.getElementById("title").innerText = title;
+	if(translation) {
+		language.onchange = () => {
+			title = getLang(translation);
+			document.title = title + " | The Snail Database";
+			document.getElementById("title").innerText = title;
+		};
+	} else {
+		language.onchange = () => {};
+	}
 }
 
 function hideSections() {
@@ -36,7 +61,7 @@ function capitalize(str) {
 }
 
 function handleLinkClick(event) {
-	if(!this.href.startsWith("http")) {
+	if(this.href.startsWith(window.location.origin)) {
 		event.preventDefault();
 		go(this.href);
 	}
@@ -45,6 +70,7 @@ function handleLinkClick(event) {
 function registerAllLinks() {
 	var links = document.getElementsByTagName("a");
 	for(var i=0; i<links.length; i++) {
+		console.log(links[i]);
 		links[i].onclick = handleLinkClick;
 	}
 }

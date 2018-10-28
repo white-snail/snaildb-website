@@ -4,6 +4,10 @@ var lang = {
 	it: []
 };
 
+var language = {
+	onchange: function(lang) {}
+}
+
 var currentLanguage;
 
 function getLang(key) {
@@ -11,26 +15,27 @@ function getLang(key) {
 	else return '';
 }
 
-function changeLanguage(language) {
-	if(lang[language].length == 0) {
+function changeLanguage(l) {
+	if(lang[l].length == 0) {
 		var request = new XMLHttpRequest();
 		request.onload = () => {
-			lang[language] = JSON.parse(request.responseText);
-			updateLanguage(language);
+			lang[l] = JSON.parse(request.responseText);
+			updateLanguage(l);
 		}
-		request.open("GET", `${window.location.origin}/lang/${language}.json`);
+		request.open("GET", `${window.location.origin}/lang/${l}.json`);
 		request.send();
 	} else {
-		updateLanguage(language);
+		updateLanguage(l);
 	}
 }
 
-function updateLanguage(language) {
-	currentLanguage = language;
+function updateLanguage(l) {
+	currentLanguage = l;
 	var langs = document.getElementsByClassName("lang");
 	for(var i=0; i<langs.length; i++) {
-		langs[i].innerText = lang[language][langs[i].dataset.lang];
+		langs[i].innerText = lang[l][langs[i].dataset.lang];
 	}
+	language.onchange();
 }
 
 window.addEventListener("load", () => {

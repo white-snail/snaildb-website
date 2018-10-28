@@ -1,0 +1,50 @@
+body {
+	font-family: 'Roboto';
+	background: #24292e;
+	color: white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Open Sans';
+	margin: 0;
+}
+a, a:hover, a:visited {
+	color: white;
+	text-decoration: none;
+}
+
+#sidebar {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	width: 256px;
+}
+
+#container {
+	position: absolute;
+	left: 256px;
+	top: 0;
+	bottom: 0;
+	right: 0;
+}
+
+header, footer {
+	padding: 11px;
+}
+
+section {
+	background: white;
+	color: black;
+	display: none;
+	padding: 16px;
+	border-radius: 16px 0 0 16px;
+}
+section a {
+	color: black !important;
+	text-decoration: underline !important;
+}
+
+footer {
+	text-align: right;
+	font-size: 11px;
+}

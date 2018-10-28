@@ -25,6 +25,7 @@ function updateUri() {
 	
 	if(window.location.pathname == "" || window.location.pathname == "/") {
 		// index page
+		setTitle(getLang("welcome"), "welcome");
 		showSection("index");
 	} else {
 		var s = window.location.pathname.split("/");
