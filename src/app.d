@@ -23,6 +23,7 @@
 module app;
 
 import std.file;
+import std.string : endsWith;
 
 import lighttp;
 
@@ -34,6 +35,14 @@ void main() {
 	{
 		debug server.router.add(Get(".*"), new SystemResource("text/html", "res/index.html"));
 		else server.router.add(Get(".*"), new Resource("text/html", read("res/index.html")));
+	}
+	
+	// other html
+	foreach(string file ; dirEntries("res", SpanMode.shallow)) {
+		if(file.endsWith(".html") && !file.endsWith("index.html")) {
+			debug server.router.add(Get(file[4..$-5]), new SystemResource("text/html", file));
+			else server.router.add(Get(file[4..$-5]), new Resource("text/html", read(file)));
+		}
 	}
 	
 	// css
