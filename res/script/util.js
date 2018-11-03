@@ -1,4 +1,5 @@
-const API = "http://localhost:8080/";
+//const API = "http://localhost:8080/";
+const API = "http://snaildb.org:8080/";
 
 function get(uri, callback) {
 	var request = new XMLHttpRequest();
@@ -19,6 +20,7 @@ function post(uri, params, callback) {
 		showSection("error");
 	};
 	request.open("POST", API + uri);
+	request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	request.send(params);
 }
 
@@ -28,7 +30,7 @@ function go(uri) {
 }
 
 function setTitle(title, translation) {
-	document.title = title + " | The Snail Database";
+	document.title = title + " - The Snail Database";
 	document.getElementById("title").innerText = title;
 	if(translation) {
 		language.onchange = () => {

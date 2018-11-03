@@ -52,6 +52,7 @@ function updateUri() {
 								function handle(result) {
 									if(handleImpl(result)) {
 										setData(result.result, "snails", "superfamily", superfamily, "family", family, "genus", genus, "species", species);
+										data.snails.superfamily[superfamily].family[family].genus[genus].species[species].subspecies.sort((a, b) => a.name.localeCompare(b.name));
 										displaySpecies(superfamily, family, genus, species);
 									}
 								}
@@ -67,6 +68,7 @@ function updateUri() {
 								function handle(result) {
 									if(handleImpl(result)) {
 										setData(result.result, "snails", "superfamily", superfamily, "family", family, "genus", genus);
+										data.snails.superfamily[superfamily].family[family].genus[genus].species.sort((a, b) => a.name.localeCompare(b.name));
 										displayGenus(superfamily, family, genus);
 									}
 								}
@@ -83,6 +85,7 @@ function updateUri() {
 							function handle(result) {
 								if(handleImpl(result)) {
 									setData(result.result, "snails", "superfamily", superfamily, "family", family);
+										data.snails.superfamily[superfamily].family[family].genuses.sort((a, b) => a.name.localeCompare(b.name));
 									displayFamily(superfamily, family);
 								}
 							}
@@ -99,6 +102,7 @@ function updateUri() {
 						function handle(result) {
 							if(handleImpl(result)) {
 								data.snails.superfamily[superfamily] = result.result;
+										data.snails.superfamily[superfamily].families.sort((a, b) => a.name.localeCompare(b.name));
 								displaySuperfamily(superfamily);
 							}
 						}
@@ -116,7 +120,7 @@ function updateUri() {
 						displaySuperfamilies();
 					} else {
 						showLoader();
-						get("getallsnails", (d) => {
+						get("getallsnails/superfamilies", (d) => {
 							for(var i in d) {
 								data.snails.superfamily[d[i].name] = d[i];
 							}
@@ -132,7 +136,7 @@ function updateUri() {
 	}
 	
 	function notFound() {
-		document.title = getLang("notfound");
+		setTitle(getLang("notfound"), "notfound");
 		showSection("notfound");
 	}
 	
