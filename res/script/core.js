@@ -151,3 +151,16 @@ window.addEventListener("load", registerAllLinks);
 window.addEventListener("load", registerSearch);
 window.addEventListener("load", updateUri);
 window.onpopstate = updateUri;
+
+// graphical
+window.addEventListener("load", () => {
+	function onresize() {
+		const height = window.innerHeight - (document.getElementsByTagName("header")[0].offsetHeight + document.getElementsByTagName("footer")[0].offsetHeight) - 32;
+		var sections = document.getElementsByTagName("section");
+		for(var i=0; i<sections.length; i++) {
+			sections[i].style.height = height + "px";
+		}
+	}
+	document.body.onresize = onresize;
+	onresize();
+});

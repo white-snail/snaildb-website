@@ -30,11 +30,11 @@ function go(uri) {
 }
 
 function setTitle(title, translation) {
-	document.title = title + " - " + getLang(title);
+	document.title = title + " - " + getLang("title");
 	document.getElementById("title").innerText = title;
 	language.onchange = () => {
 		title = translation ? getLang(translation) : title;
-		document.title = title + " - " + getLang(title);
+		document.title = title + " - " + getLang("title");
 		document.getElementById("title").innerText = title;
 	};
 }
@@ -49,6 +49,7 @@ function showLoader() {
 	document.getElementById("loading").style.display = "block";
 	document.title = "";
 	document.getElementById("title").innerText = "...";
+	language.onchange = () => {};
 }
 
 function showSection(id) {
@@ -70,7 +71,6 @@ function handleLinkClick(event) {
 function registerAllLinks() {
 	var links = document.getElementsByTagName("a");
 	for(var i=0; i<links.length; i++) {
-		console.log(links[i]);
 		links[i].onclick = handleLinkClick;
 	}
 }

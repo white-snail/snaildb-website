@@ -18,12 +18,12 @@ a, a:hover, a:visited {
 	position: fixed;
 	top: 0;
 	bottom: 0;
-	width: 256px;
+	width: 192px;
 }
 
 #container {
 	position: absolute;
-	left: 256px;
+	left: 192px;
 	top: 0;
 	bottom: 0;
 	right: 0;
@@ -39,6 +39,7 @@ section {
 	display: none;
 	padding: 16px;
 	border-radius: 16px 0 0 16px;
+	overflow-y: auto;
 }
 section a {
 	color: black !important;
@@ -50,10 +51,18 @@ footer {
 	font-size: 11px;
 }
 
+.nav {
+	padding: 4px 8px;
+}
+
+.flag {
+	width: 48px;
+}
+
 @media screen and (max-width: 840px) {
 
 	#sidebar {
-		left: -256px;
+		left: -192px;
 	}
 	
 	#container {

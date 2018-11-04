@@ -63,6 +63,12 @@ void main() {
 		else server.router.add(Get("img/" ~ file[8..$]), new CachedResource("image/png", read(file)));
 	}
 	
+	// svg images
+	foreach(string file ; dirEntries("res/svg", SpanMode.shallow)) {
+		debug server.router.add(Get("img/" ~ file[8..$]), new SystemResource("image/svg+xml", file));
+		else server.router.add(Get("img/" ~ file[8..$]), new CachedResource("image/svg+xml", read(file)));
+	}
+	
 	// language files
 	foreach(string file ; dirEntries("res/lang", SpanMode.shallow)) {
 		debug server.router.add(Get("lang/" ~ file[9..$]), new SystemResource("application/json", file));
