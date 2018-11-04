@@ -32,10 +32,12 @@ function go(uri) {
 function setTitle(title, translation) {
 	document.title = title + " - " + getLang("title");
 	document.getElementById("title").innerText = title;
+	onresize();
 	language.onchange = () => {
 		title = translation ? getLang(translation) : title;
 		document.title = title + " - " + getLang("title");
 		document.getElementById("title").innerText = title;
+		onresize();
 	};
 }
 

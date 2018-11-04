@@ -5,7 +5,7 @@ function displaySuperfamilies() {
 		var d = data.snails.superfamily[superfamily];
 		var div = create("div");
 		div.appendChild(createLink(capitalize(d.name), `/snail/${d.name}`));
-		div.appendChild(taxonomers(d));
+		taxonomers(d, div);
 		snail.appendChild(div);
 	}
 	showSection("snail");
@@ -19,7 +19,7 @@ function displaySuperfamily(superfamily) {
 		var d = data.snails.superfamily[superfamily].families[family];
 		var div = create("div");
 		div.appendChild(createLink(capitalize(d.name), `/snail/${superfamily}/${d.name}`));
-		div.appendChild(taxonomers(d));
+		taxonomers(d, div);
 		snail.appendChild(div);
 	}
 	showSection("snail");
@@ -33,7 +33,7 @@ function displayFamily(superfamily, family) {
 		var d = data.snails.superfamily[superfamily].family[family].genuses[genus];
 		var div = create("div");
 		div.appendChild(createLink(capitalize(d.name), `/snail/${superfamily}/${family}/${d.name}`));
-		div.appendChild(taxonomers(d));
+		taxonomers(d, div);
 		snail.appendChild(div);
 	}
 	showSection("snail");
@@ -47,7 +47,7 @@ function displayGenus(superfamily, family, genus) {
 		var d = data.snails.superfamily[superfamily].family[family].genus[genus].species[species];
 		var div = create("div");
 		div.appendChild(createLink(capitalize(d.name), `/snail/${superfamily}/${family}/${genus}/${d.name}`));
-		div.appendChild(taxonomers(d));
+		taxonomers(d, div);
 		snail.appendChild(div);
 	}
 	showSection("snail");
@@ -63,7 +63,8 @@ function displaySpecies(superfamily, family, genus, species) {
 		div.appendChild(create("span", getLang("subspecies"), undefined, "subspecies"));
 		div.appendChild(create("span", "&nbsp;"));
 		div.appendChild(create("span", capitalize(d.name)));
-		div.appendChild(taxonomers(d));
+		taxonomers(d, div);
+		//TODO size of the shell
 		snail.appendChild(div);
 	}
 	showSection("snail");
@@ -71,7 +72,9 @@ function displaySpecies(superfamily, family, genus, species) {
 
 function displayTaxonomer(taxonomer) {
 	var snail = clean();
-	
+	const info = data.taxonomers[taxonomer];
+	setTitle(`${info.name} ${info.surname}`);
+	//TODO
 	showSection("snail");
 }
 
@@ -104,9 +107,7 @@ function addHeaderImpl(desc, value, uri) {
 	return tr;
 }
 
-function taxonomers(data) {
-	var parent = create("div");
-	parent.style.display = "inline-block";
+function taxonomers(data, parent) {
 	if(data.taxonomyYear > 0) {
 		parent.appendChild(create("span", "&nbsp;("));
 		for(var i in data.taxonomers) {

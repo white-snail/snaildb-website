@@ -2,7 +2,8 @@ var data = {
 	snails: {
 		all: false,
 		superfamily: {}
-	}
+	},
+	taxonomers: {}
 };
 
 function updateUri() {
@@ -135,6 +136,25 @@ function updateUri() {
 					}
 				}
 				break;
+			case "taxonomer":
+				if(s[2]) {
+					const taxonomer = s[2].toLowerCase();
+					if(data.taxonomers[taxonomer]) {
+						displayTaxonomer(taxonomer);
+					} else {
+						get(`gettaxonomerbyname/${taxonomer}`, (d) => {
+							if(d.result) {
+								data.taxonomers[taxonomer] = d.result;
+								displayTaxonomer(taxonomer);
+							} else {
+								notFound();
+							}
+						});
+					}
+				} else {
+					notFound();
+				}
+				break;
 			default:
 				notFound();
 		}
@@ -153,14 +173,14 @@ window.addEventListener("load", updateUri);
 window.onpopstate = updateUri;
 
 // graphical
-window.addEventListener("load", () => {
-	function onresize() {
-		const height = window.innerHeight - (document.getElementsByTagName("header")[0].offsetHeight + document.getElementsByTagName("footer")[0].offsetHeight) - 32;
-		var sections = document.getElementsByTagName("section");
-		for(var i=0; i<sections.length; i++) {
-			sections[i].style.height = height + "px";
-		}
+function onresize() {
+	const height = window.innerHeight - (document.getElementsByTagName("header")[0].offsetHeight + document.getElementsByTagName("footer")[0].offsetHeight) - 32;
+	var sections = document.getElementsByTagName("section");
+	for(var i=0; i<sections.length; i++) {
+		sections[i].style.height = height + "px";
 	}
+}
+window.addEventListener("load", () => {
 	document.body.onresize = onresize;
 	onresize();
 });
