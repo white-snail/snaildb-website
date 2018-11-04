@@ -1,7 +1,7 @@
 {
 	
-	"welcome": "Welcome on SnailDB",
-	"welcome-desc": "The Snail Database is a cool project",
+	"about": "The snail database",
+	"about-desc-1": "The Snail Database is a cool project",
 	"notfound": "Page not found",
 	"notfound-desc": "The page at the requested address does not exist or it has been moved",
 	"error": "Cannot connect to the database",
