@@ -5,6 +5,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet" />
 		<link href="/style/main.css" rel="stylesheet" />
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128641143-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){ dataLayer.push(arguments); }
+			gtag('js', new Date());
+			gtag('config', 'UA-128641143-1');
+		</script>
 		<script src="/script/util.js"></script>
 		<script src="/script/core.js"></script>
 		<script src="/script/lang.js"></script>
@@ -16,11 +23,6 @@
 				<img src="/img/logo.png" style="vertical-align:-36px" />
 				<h3 style="display:inline-block">SNAILDB</h3>
 			</a>
-			<ul class="nav">
-				<li class="nav-item">
-					<a href="/about" class="lang" data-lang="about"></a>
-				</li>
-			</ul>
 			<ul class="nav">
 				<li class="nav-item">
 					<a href="/snail" class="lang" data-lang="snails"></a>
@@ -43,7 +45,6 @@
 				<h1 id="title"></h1>
 			</header>
 			<section id="index">
-				<h3 class="lang" data-lang="about"></h3>
 				<p class="lang" data-lang="about-desc-1"></p>
 			</section>
 			<section id="notfound">

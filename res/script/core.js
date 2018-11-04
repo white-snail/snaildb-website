@@ -25,7 +25,12 @@ function updateUri() {
 	
 	if(window.location.pathname == "" || window.location.pathname == "/") {
 		// index page
-		setTitle(getLang("welcome"), "welcome");
+		document.title = getLang("title");
+		document.getElementById("title").innerText = getLang("title");
+		language.onchange = () => {
+			document.title = getLang("title");
+			document.getElementById("title").innerText = getLang("title");
+		};
 		showSection("index");
 	} else {
 		var s = window.location.pathname.split("/");

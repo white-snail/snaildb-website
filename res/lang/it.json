@@ -1,6 +1,6 @@
 {
 	
-	"about": "Il database delle chiocciole",
+	"title": "Il database delle chiocciole",
 	"notfound": "Pagina non trovata",
 	"notfound-desc": "La pagina all'indirizzo richiesto non esiste o è stata spostata",
 	"error": "Impossibile connettersi al database",

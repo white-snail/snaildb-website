@@ -30,17 +30,13 @@ function go(uri) {
 }
 
 function setTitle(title, translation) {
-	document.title = title + " - The Snail Database";
+	document.title = title + " - " + getLang(title);
 	document.getElementById("title").innerText = title;
-	if(translation) {
-		language.onchange = () => {
-			title = getLang(translation);
-			document.title = title + " | The Snail Database";
-			document.getElementById("title").innerText = title;
-		};
-	} else {
-		language.onchange = () => {};
-	}
+	language.onchange = () => {
+		title = translation ? getLang(translation) : title;
+		document.title = title + " - " + getLang(title);
+		document.getElementById("title").innerText = title;
+	};
 }
 
 function hideSections() {
@@ -51,6 +47,8 @@ function hideSections() {
 function showLoader() {
 	hideSections();
 	document.getElementById("loading").style.display = "block";
+	document.title = "";
+	document.getElementById("title").innerText = "...";
 }
 
 function showSection(id) {
