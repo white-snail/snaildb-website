@@ -57,8 +57,8 @@ function displaySpecies(superfamily, family, genus, species) {
 	setTitle(`${capitalize(genus)} ${capitalize(species)}`);
 	var snail = clean();
 	addHeader(superfamily, family, genus, species);
-	for(var subspecies in data.snails.superfamily[superfamily].family[family].genus[genus].species[species].subspecies) {
-		var d = data.snails.superfamily[superfamily].family[family].genus[genus].species[species].subspecies[subspecies];
+	for(var subspecies in data.snails.superfamily[superfamily].family[family].genus[genus].speciess[species].subspecies) {
+		var d = data.snails.superfamily[superfamily].family[family].genus[genus].speciess[species].subspecies[subspecies];
 		var div = create("div");
 		div.appendChild(create("span", getLang("subspecies"), undefined, "subspecies"));
 		div.appendChild(create("span", "&nbsp;"));

@@ -22,6 +22,10 @@ a, a:hover, a:visited {
 	width: 192px;
 }
 
+#logo {
+	width: 176px;
+}
+
 #container {
 	position: absolute;
 	left: 192px;
@@ -52,6 +56,24 @@ footer {
 	font-size: 11px;
 }
 
+#open-menu {
+	display: none;
+	width: 32px;
+	vertical-align: -4px;
+	margin-right: 16px;
+	margin-left: 8px;
+}
+
+#close-menu {
+	display: none;
+	width: 32px;
+	margin: 16px;
+}
+
+#title {
+	vertical-align: middle;
+}
+
 .nav {
 	padding: 4px 8px;
 }
@@ -64,7 +86,17 @@ footer {
 @media screen and (max-width: 840px) {
 
 	#sidebar {
-		left: -192px;
+		width: 256px;
+		left: -256px;
+		background: #24292e;
+		transition: left .5s ease;
+	}
+	#sidebar.open {
+		left: 0px;
+	}
+	
+	#logo {
+		display: none;
 	}
 	
 	#container {
@@ -73,6 +105,14 @@ footer {
 	
 	section {
 		border-radius: 0;
+	}
+	
+	#open-menu {
+		display: inline-block;
+	}
+	
+	#close-menu {
+		display: block;
 	}
 
 }

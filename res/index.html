@@ -7,6 +7,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet" />
 		<link href="/style/main.css" rel="stylesheet" />
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128641143-1"></script>
+		<script src="https://unpkg.com/navigo@6"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){ dataLayer.push(arguments); }
@@ -19,32 +20,12 @@
 		<script src="/script/snail.js"></script>
 	</head>
 	<body>
-		<div id="sidebar">
-			<a href="/">
-				<img src="/img/logo.png" style="width:176px" />
-			</a>
-			<div class="nav">
-				<a href="/snail" class="lang" data-lang="snails"></a>
-			</div>
-			<div class="nav">
-				<div class="has-icon-right">
-					<form onsubmit="search(event)">
-						<input class="form-input input-sm search" type="text" />
-						<i class="form-icon icon icon-search"></i>
-						<button class="lang" data-lang="search"></button>
-					</form>
-				</div>
-			</div>
-			<div class="nav">
-				<p class="lang" data-lang="change-language"></p>
-				<img class="flag" src="img/uk.svg" onclick="changeLanguage('en')" />
-				<img class="flag" src="img/it.svg" onclick="changeLanguage('it')" />
-				<img class="flag" src="img/es.svg" onclick="changeLanguage('es')" />
-			</div>
-		</div>
 		<div id="container">
 			<header>
-				<h1 id="title">...</h1>
+				<h1 id="title">
+					<img id="open-menu" src="/img/menu.svg" />
+					<span>...</span>
+				</h1>
 			</header>
 			<section id="index">
 				<p class="lang" data-lang="about-desc-1"></p>
@@ -82,8 +63,30 @@
 				<div class="loading loading-lg"></div>
 			</section>
 			<footer>
-				© 2018 Kasokuz
+				<a href="mailto:info@snaildb.org?subject=SnailDB%20Error%20Report" class="lang" data-lang="report"></a>
+				<span> | </span>
+				<span>© 2018 Kasokuz</span>
 			</footer>
+		</div>
+		<div id="sidebar">
+			<a href="/">
+				<img id="logo" src="/img/logo.png" />
+			</a>
+			<img id="close-menu" src="/img/close.svg" />
+			<div class="nav">
+				<div class="has-icon-right">
+					<form onsubmit="search(event)">
+						<input class="search" type="text" />
+						<button class="lang" data-lang="search"></button>
+					</form>
+				</div>
+			</div>
+			<div class="nav">
+				<p class="lang" data-lang="change-language"></p>
+				<img class="flag" src="img/uk.svg" onclick="changeLanguage('en')" />
+				<img class="flag" src="img/it.svg" onclick="changeLanguage('it')" />
+				<img class="flag" src="img/es.svg" onclick="changeLanguage('es')" />
+			</div>
 		</div>
 	</body>
 </html>

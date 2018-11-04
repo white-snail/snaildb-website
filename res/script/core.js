@@ -6,6 +6,8 @@ var data = {
 	taxonomers: {}
 };
 
+var router;
+
 function updateUri() {
 	
 	function getData(...args) {
@@ -24,7 +26,22 @@ function updateUri() {
 		eval("data." + args.join(".") + " = value");
 	}
 	
-	if(window.location.pathname == "" || window.location.pathname == "/") {
+	function notFound() {
+		setTitle(getLang("notfound"), "notfound");
+		showSection("notfound");
+	}
+	
+	function handleImpl(result) {
+		if(result.result) {
+			return true;
+		} else {
+			notFound();
+			return false;
+		}
+	}
+	
+	router = new Navigo("/");
+	router.on(() => {
 		// index page
 		document.title = getLang("title");
 		document.getElementById("title").innerText = getLang("title");
@@ -33,137 +50,115 @@ function updateUri() {
 			document.getElementById("title").innerText = getLang("title");
 		};
 		showSection("index");
-	} else {
-		var s = window.location.pathname.split("/");
-		while(s[s.length-1].length == 0) s.pop();
-		switch(s[1]) {
-			case "snail":
-				function handleImpl(result) {
-					if(result.result) {
-						return true;
-					} else {
-						notFound();
-						return false;
+	});
+	router.on({
+		"snail": () => {
+			if(data.snails.all) {
+				displaySuperfamilies();
+			} else {
+				showLoader();
+				get("getallsnails/superfamilies", (d) => {
+					for(var i in d) {
+						data.snails.superfamily[d[i].name] = d[i];
 					}
+					data.snails.all = true;
+					displaySuperfamilies();
+				});
+			}
+		},
+		"snail/:superfamily": (params) => {
+			showLoader();
+			const superfamily = params.superfamily.toLowerCase();
+			function handle(result) {
+				if(handleImpl(result)) {
+					data.snails.superfamily[superfamily] = result.result;
+					data.snails.superfamily[superfamily].families.sort((a, b) => a.name.localeCompare(b.name));
+					displaySuperfamily(superfamily);
 				}
-				if(s.length > 2) {
-					var superfamily = s[2];
-					if(s.length > 3) {
-						var family = s[3];
-						if(s.length > 4) {
-							var genus = s[4];
-							if(s.length > 5) {
-								var species = s[5];
-								// species
-								function handle(result) {
-									if(handleImpl(result)) {
-										setData(result.result, "snails", "superfamily", superfamily, "family", family, "genus", genus, "species", species);
-										data.snails.superfamily[superfamily].family[family].genus[genus].species[species].subspecies.sort((a, b) => a.name.localeCompare(b.name));
-										displaySpecies(superfamily, family, genus, species);
-									}
-								}
-								showLoader();
-								if(getData("snails", "superfamily", superfamily, "family", family, "genus", genus, "species", species)) {
-									if(data.snails.superfamily[superfamily].family[family].genus[genus].species[species].subspecies) displayGenus(superfamily, family, genus, species);
-									else get("getsnailbyid/species/" + data.snails.superfamily[superfamily].family[family].genus[genus].species[species].id, handle);
-								} else {
-									get(`getsnailbyname/${superfamily}/${family}/${genus}/${species}`, handle);
-								}
-							} else {
-								// genus
-								function handle(result) {
-									if(handleImpl(result)) {
-										setData(result.result, "snails", "superfamily", superfamily, "family", family, "genus", genus);
-										data.snails.superfamily[superfamily].family[family].genus[genus].species.sort((a, b) => a.name.localeCompare(b.name));
-										displayGenus(superfamily, family, genus);
-									}
-								}
-								showLoader();
-								if(getData("snails", "superfamily", superfamily, "family", family, "genus", genus)) {
-									if(data.snails.superfamily[superfamily].family[family].genus[genus].species) displayGenus(superfamily, family, genus);
-									else get("getsnailbyid/genus/" + data.snails.superfamily[superfamily].family[family].genus[genus].id, handle);
-								} else {
-									get(`getsnailbyname/${superfamily}/${family}/${genus}`, handle);
-								}
-							}
-						} else {
-							// family
-							function handle(result) {
-								if(handleImpl(result)) {
-									setData(result.result, "snails", "superfamily", superfamily, "family", family);
-										data.snails.superfamily[superfamily].family[family].genuses.sort((a, b) => a.name.localeCompare(b.name));
-									displayFamily(superfamily, family);
-								}
-							}
-							showLoader();
-							if(getData("snails", "superfamily", superfamily, "family", family)) {
-								if(data.snails.superfamily[superfamily].family[family].genuses) displayFamily(superfamily, family);
-								else get("getsnailbyid/family/" + data.snails.superfamily[superfamily].family[family].id, handle);
-							} else {
-								get(`getsnailbyname/${superfamily}/${family}`, handle);
-							}
-						}
-					} else {
-						// superfamily
-						function handle(result) {
-							if(handleImpl(result)) {
-								data.snails.superfamily[superfamily] = result.result;
-										data.snails.superfamily[superfamily].families.sort((a, b) => a.name.localeCompare(b.name));
-								displaySuperfamily(superfamily);
-							}
-						}
-						showLoader();
-						if(data.snails.superfamily[superfamily]) {
-							if(data.snails.superfamily[superfamily].families) displaySuperfamily(superfamily);
-							else get("getsnailbyid/superfamily/" + data.snails.superfamily[superfamily].id, handle);
-						} else {
-							get(`getsnailbyname/${superfamily}`, handle);
-						}
-					}
-				} else {
-					// display all superfamilies
-					if(data.snails.all) {
-						displaySuperfamilies();
-					} else {
-						showLoader();
-						get("getallsnails/superfamilies", (d) => {
-							for(var i in d) {
-								data.snails.superfamily[d[i].name] = d[i];
-							}
-							data.snails.all = true;
-							displaySuperfamilies();
-						});
-					}
+			}
+			if(getData("snails", "superfamily", superfamily, "id")) {
+				if(data.snails.superfamily[superfamily].families) displaySuperfamily(superfamily);
+				else get("getsnailbyid/superfamily/" + data.snails.superfamily[superfamily].id, handle);
+			} else {
+				get(`getsnailbyname/${superfamily}`, handle);
+			}
+		},
+		"snail/:superfamily/:family": (params) => {
+			showLoader();
+			const superfamily = params.superfamily.toLowerCase();
+			const family = params.family.toLowerCase();
+			function handle(result) {
+				if(handleImpl(result)) {
+					setData(result.result, "snails", "superfamily", superfamily, "family", family);
+					data.snails.superfamily[superfamily].family[family].genuses.sort((a, b) => a.name.localeCompare(b.name));
+					displayFamily(superfamily, family);
 				}
-				break;
-			case "taxonomer":
-				if(s[2]) {
-					const taxonomer = s[2].toLowerCase();
-					if(data.taxonomers[taxonomer]) {
+			}
+			if(getData("snails", "superfamily", superfamily, "family", family, "id")) {
+				if(data.snails.superfamily[superfamily].family[family].genuses) displayFamily(superfamily, family);
+				else get("getsnailbyid/family/" + data.snails.superfamily[superfamily].family[family].id, handle);
+			} else {
+				get(`getsnailbyname/${superfamily}/${family}`, handle);
+			}
+		},
+		"snail/:superfamily/:family/:genus": (params) => {
+			showLoader();
+			const superfamily = params.superfamily.toLowerCase();
+			const family = params.family.toLowerCase();
+			const genus = params.genus.toLowerCase();
+			function handle(result) {
+				if(handleImpl(result)) {
+					setData(result.result, "snails", "superfamily", superfamily, "family", family, "genus", genus);
+					data.snails.superfamily[superfamily].family[family].genus[genus].species.sort((a, b) => a.name.localeCompare(b.name));
+					displayGenus(superfamily, family, genus);
+				}
+			}
+			if(getData("snails", "superfamily", superfamily, "family", family, "genus", genus, "id")) {
+				if(data.snails.superfamily[superfamily].family[family].genus[genus].species) displayGenus(superfamily, family, genus);
+				else get("getsnailbyid/genus/" + data.snails.superfamily[superfamily].family[family].genus[genus].id, handle);
+			} else {
+				get(`getsnailbyname/${superfamily}/${family}/${genus}`, handle);
+			}
+		},
+		"snail/:superfamily/:family/:genus/:species": (params) => {
+			showLoader();
+			const superfamily = params.superfamily.toLowerCase();
+			const family = params.family.toLowerCase();
+			const genus = params.genus.toLowerCase();
+			const species = params.species.toLowerCase();
+			function handle(result) {
+				if(handleImpl(result)) {
+					setData(result.result, "snails", "superfamily", superfamily, "family", family, "genus", genus, "speciess", species);
+					data.snails.superfamily[superfamily].family[family].genus[genus].speciess[species].subspecies.sort((a, b) => a.name.localeCompare(b.name));
+					displaySpecies(superfamily, family, genus, species);
+				}
+			}
+			if(getData("snails", "superfamily", superfamily, "family", family, "genus", genus, "speciess", species)) {
+				if(data.snails.superfamily[superfamily].family[family].genus[genus].speciess[species].subspecies) displaySpecies(superfamily, family, genus, species);
+				else get("getsnailbyid/species/" + data.snails.superfamily[superfamily].family[family].genus[genus].speciess[species].id, handle);
+			} else {
+				get(`getsnailbyname/${superfamily}/${family}/${genus}/${species}`, handle);
+			}
+		},
+		"taxonomer/:taxonomer": (params) => {
+			showLoader();
+			const taxonomer = params.taxonomer.toLowerCase();
+			if(data.taxonomers[taxonomer]) {
+				displayTaxonomer(taxonomer);
+			} else {
+				get(`gettaxonomerbyname/${taxonomer}`, (d) => {
+					if(d.result) {
+						data.taxonomers[taxonomer] = d.result;
 						displayTaxonomer(taxonomer);
 					} else {
-						get(`gettaxonomerbyname/${taxonomer}`, (d) => {
-							if(d.result) {
-								data.taxonomers[taxonomer] = d.result;
-								displayTaxonomer(taxonomer);
-							} else {
-								notFound();
-							}
-						});
+						notFound();
 					}
-				} else {
-					notFound();
-				}
-				break;
-			default:
-				notFound();
+				});
+			}
 		}
-	}
-	
-	function notFound() {
-		setTitle(getLang("notfound"), "notfound");
-		showSection("notfound");
-	}
+	});
+	router.notFound(notFound);
+	router.resolve();
 	
 }
 
@@ -181,6 +176,7 @@ function onresize() {
 	}
 }
 window.addEventListener("load", () => {
+	document.getElementById("close-menu").onclick = () => document.getElementById("sidebar").classList.remove("open");
 	document.body.onresize = onresize;
 	onresize();
 });

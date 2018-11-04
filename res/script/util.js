@@ -30,14 +30,25 @@ function go(uri) {
 }
 
 function setTitle(title, translation) {
-	document.title = title + " - " + getLang("title");
-	document.getElementById("title").innerText = title;
-	onresize();
+	function parseTitle() {
+		var content = "<img id='open-menu' src='/img/menu.svg' />";
+		const split = title.split(" ");
+		for(var i in split) {
+			content += "<span>" + split[i] + "</span>";
+			content += "<span> </span>";
+		}
+		return content;
+	}
+	function set() {
+		document.title = title + " - " + getLang("title");
+		document.getElementById("title").innerHTML = parseTitle();
+		onresize();
+		document.getElementById("open-menu").onclick = () => document.getElementById("sidebar").classList.add("open");
+	}
+	set();
 	language.onchange = () => {
 		title = translation ? getLang(translation) : title;
-		document.title = title + " - " + getLang("title");
-		document.getElementById("title").innerText = title;
-		onresize();
+		set();
 	};
 }
 

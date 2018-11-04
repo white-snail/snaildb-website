@@ -16,6 +16,8 @@
 	"family": "family",
 	"genus": "gene",
 	"species": "species",
-	"subspecies": "subspecies"
+	"subspecies": "subspecies",
+	
+	"report": "Report an error"
 	
 }
