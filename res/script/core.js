@@ -40,7 +40,7 @@ function updateUri() {
 		}
 	}
 	
-	router = new Navigo("/");
+	router = new Navigo(null);
 	router.on(() => {
 		// index page
 		document.title = getLang("title");
