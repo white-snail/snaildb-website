@@ -1,7 +1,15 @@
 {
 	
 	"title": "The snail database",
-	"about-desc-1": "The Snail Database is a cool project",
+	"about-desc-0": "The snail database provides informations, such as taxonomy, size and distribution of all living and extinct species of land, sea and freshwater snails.",
+	"about-title-1": "What is a snail?",
+	"about-desc-1": "A snail is a slow-moving gastropod with a spiral coiled shell and a soft body that can completely retract into the shell.",
+	"about-title-2": "How can I use the database?",
+	"about-desc-2": "This website provides an interface to the SnailDB API. From the website it's possible to view snail informations. The APIs can also be used in other websites and are documented at the following page:",
+	"about-title-3": "How can I contribute?",
+	"about-desc-3": "",
+	"stats": "Stats",
+	
 	"notfound": "Page not found",
 	"notfound-desc": "The page at the requested address does not exist or it has been moved",
 	"error": "Cannot connect to the database",
@@ -13,9 +21,13 @@
 	
 	"superfamilies": "Superfamilies",
 	"superfamily": "superfamily",
+	"families": "Families",
 	"family": "family",
+	"genuses": "Genera",
 	"genus": "gene",
+	"species-p": "Species",
 	"species": "species",
+	"subspecies-p": "Subspecies",
 	"subspecies": "subspecies",
 	
 	"report": "Report an error"

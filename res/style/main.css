@@ -74,6 +74,15 @@ footer {
 	vertical-align: middle;
 }
 
+.homepage + .homepage {
+	margin-top: 16px;
+}
+
+.homepage p {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
 .nav {
 	padding: 4px 8px;
 }

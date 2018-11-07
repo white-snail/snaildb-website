@@ -49,6 +49,32 @@ function updateUri() {
 			document.title = getLang("title");
 			document.getElementById("title").innerText = getLang("title");
 		};
+		get("getinfo/total", (d) => {
+			document.getElementById("superfamilies").innerText = d.superfamilies;
+			document.getElementById("families").innerText = d.families;
+			document.getElementById("genuses").innerText = d.genuses;
+			document.getElementById("species").innerText = d.species;
+			document.getElementById("subspecies").innerText = d.subspecies;
+		});
+		function displaySuperfamiliesIndex() {
+			var list = document.getElementById("superfamilies-list");
+			for(var key in data.snails.superfamily) {
+				var div = create("div");
+				div.appendChild(createLink(capitalize(key), `snail/${key}`));
+				list.appendChild(div);
+			}
+		}
+		if(data.snails.all) {
+			displaySuperfamiliesIndex();
+		} else {
+			get("getallsnails/superfamilies", (d) => {
+				for(var i in d) {
+					data.snails.superfamily[d[i].name] = d[i];
+				}
+				data.snails.all = true;
+				displaySuperfamiliesIndex();
+			});
+		}
 		showSection("index");
 	});
 	router.on({
@@ -176,6 +202,8 @@ function onresize() {
 	}
 }
 window.addEventListener("load", () => {
+	document.getElementById("open-menu").onclick = () => document.getElementById("sidebar").classList.add("open");
+	document.getElementById("api-docs").href = document.getElementById("api-docs").innerText = API + "docs";
 	document.getElementById("close-menu").onclick = () => document.getElementById("sidebar").classList.remove("open");
 	document.body.onresize = onresize;
 	onresize();

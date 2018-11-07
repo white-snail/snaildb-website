@@ -1,6 +1,14 @@
 {
 	
 	"title": "Il database delle chiocciole",
+	"about-desc-0": "Il database delle chiocciole fornisce informazioni, come tassonomia, dimensioni e distribuzione di tutte le specie di chiocciole di terra e acquatiche viventi e non.",
+	"about-title-1": "Cos'è una chiocciola?",
+	"about-desc-1": "La chiocciola è un gasteropode dal lento movimento con una conchiglia a sprirale arrotolata ed un corpo morbido che si ritrae complemetamente nella conchiglia.",
+	"about-title-2": "Come posso usare il database?",
+	"about-desc-2": "Questo sito fornisce un'interfaccia alle API di SnailDB. Le API possono anche essere usato in altri siti web e sono documentate (in inglese) nella pagina seguente:",
+	"about-title-3": "Come posso contribuire?",
+	"stats": "Statistiche",
+	
 	"notfound": "Pagina non trovata",
 	"notfound-desc": "La pagina all'indirizzo richiesto non esiste o è stata spostata",
 	"error": "Impossibile connettersi al database",
@@ -11,9 +19,13 @@
 	
 	"superfamilies": "Superfamiglie",
 	"superfamily": "superfamiglia",
+	"families": "Famiglies",
 	"family": "famiglia",
+	"genuses": "Generi",
 	"genus": "genere",
+	"species-p": "Specie",
 	"species": "specie",
+	"subspecies-p": "Sottospecie",
 	"subspecies": "sottospecie",
 	
 	"report": "Segnala un errore"

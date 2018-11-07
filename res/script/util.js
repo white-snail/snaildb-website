@@ -31,7 +31,7 @@ function go(uri) {
 
 function setTitle(title, translation) {
 	function parseTitle() {
-		var content = "<img id='open-menu' src='/img/menu.svg' />";
+		var content = "";
 		const split = title.split(" ");
 		for(var i in split) {
 			content += "<span>" + split[i] + "</span>";
@@ -43,7 +43,6 @@ function setTitle(title, translation) {
 		document.title = title + " - " + getLang("title");
 		document.getElementById("title").innerHTML = parseTitle();
 		onresize();
-		document.getElementById("open-menu").onclick = () => document.getElementById("sidebar").classList.add("open");
 	}
 	set();
 	language.onchange = () => {

@@ -23,13 +23,45 @@
 	<body>
 		<div id="container">
 			<header>
-				<h1 id="title">
-					<img id="open-menu" src="/img/menu.svg" />
-					<span>...</span>
-				</h1>
+				<table style="border-spacing:0px">
+					<tr>
+						<td><img id="open-menu" src="/img/menu.svg" /></td>
+						<td></td>
+						<td><h1 id="title"></h1></td>
+					</tr>
+				</table>
 			</header>
 			<section id="index">
-				<p class="lang" data-lang="about-desc-1"></p>
+				<div class="homepage">
+					<p class="lang" data-lang="about-desc-0"></p>
+				</div>
+				<div class="homepage">
+					<b class="lang" data-lang="about-title-1"></b>
+					<p class="lang" data-lang="about-desc-1"></p>
+				</div>
+				<div class="homepage">
+					<b class="lang" data-lang="about-title-2"></b>
+					<p class="lang" data-lang="about-desc-2"></p>
+					<a id="api-docs" target="_blank"></a>
+				</div>
+				<div class="homepage">
+					<b class="lang" data-lang="about-title-3"></b>
+					<p class="lang" data-lang="about-desc-3"></p>
+				</div>
+				<div class="homepage">
+					<b class="lang" data-lang="superfamilies"></b>
+					<p id="superfamilies-list"></p>
+				</div>
+				<div class="homepage">
+					<b class="lang" data-lang="stats"></b>
+					<p>
+						<span class="lang" data-lang="superfamilies"></span>: <span id="superfamilies"></span><br>
+						<span class="lang" data-lang="families"></span>: <span id="families"></span><br>
+						<span class="lang" data-lang="genuses"></span>: <span id="genuses"></span><br>
+						<span class="lang" data-lang="species-p"></span>: <span id="species"></span><br>
+						<span class="lang" data-lang="subspecies-p"></span>: <span id="subspecies"></span>
+					</p>
+				</div>
 			</section>
 			<section id="notfound">
 				<div class="empty">
@@ -63,6 +95,8 @@
 			</section>
 			<footer>
 				<a href="mailto:info@snaildb.org?subject=SnailDB%20Error%20Report" class="lang" data-lang="report"></a>
+				<span> | </span>
+				<a href="https://github.com/white-snail" target="_blank">GitHub</a>
 				<span> | </span>
 				<span>© 2018 Kasokuz</span>
 			</footer>
