@@ -60,11 +60,37 @@ function displaySpecies(superfamily, family, genus, species) {
 	for(var subspecies in data.snails.superfamily[superfamily].family[family].genus[genus].speciess[species].subspecies) {
 		var d = data.snails.superfamily[superfamily].family[family].genus[genus].speciess[species].subspecies[subspecies];
 		var div = create("div");
+		div.className = "subspecies";
 		div.appendChild(create("span", getLang("subspecies"), undefined, "subspecies"));
 		div.appendChild(create("span", "&nbsp;"));
 		div.appendChild(create("span", capitalize(d.name)));
 		taxonomers(d, div);
 		//TODO size of the shell
+		if(d.location) {
+			const locations = d.location.split(",");
+			var iso = [];
+			for(var i in locations) {
+				const s = locations[i].split(".");
+				iso.push("'" + s[0].toUpperCase() + "'");
+			}
+			var map = create("div");
+			map.style.height = "384px";
+			div.appendChild(map);
+			var m = new google.maps.Map(map, {
+				center: {lat: 0, lng: 0},
+				zoom: 2,
+				disableDefaultUI: true
+			});
+			new google.maps.FusionTablesLayer({
+				query: {
+					select: 'geometry',
+					from: '1N2LBk4JHwWpOY4d9fobIn27lfnZ5MDy-NoqqRpk',
+					where: "ISO_2DIGIT IN (" + iso.join(", ") + ")"
+				},
+				map: m,
+				suppressInfoWindows: true
+			});
+		}
 		snail.appendChild(div);
 	}
 	showSection("snail");
