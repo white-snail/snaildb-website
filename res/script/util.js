@@ -1,11 +1,11 @@
 //const API = "http://localhost:8080/";
-const API = "http://snaildb.org:8080/";
+const API = "https://snaildb.org:8080/";
 
 function get(uri, callback) {
 	var request = new XMLHttpRequest();
 	request.onload = () => callback(JSON.parse(request.responseText));
 	request.onerror = () => {
-		document.title = getLang("error");
+		setTitle(getLang("error"), "error");
 		showSection("error");
 	};
 	request.open("GET", API + uri);
@@ -16,7 +16,7 @@ function post(uri, params, callback) {
 	var request = new XMLHttpRequest();
 	request.onload = () => callback(JSON.parse(request.responseText));
 	request.onerror = () => {
-		document.title = getLang("error");
+		setTitle(getLang("error"), "error");
 		showSection("error");
 	};
 	request.open("POST", API + uri);
