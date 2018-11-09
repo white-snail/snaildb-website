@@ -24,7 +24,7 @@
 	"families": "Families",
 	"family": "family",
 	"genuses": "Genera",
-	"genus": "gene",
+	"genus": "genus",
 	"species-p": "Species",
 	"species": "species",
 	"subspecies-p": "Subspecies",
@@ -32,10 +32,11 @@
 	
 	"report": "Report an error",
 	
-	"viviparous": "viviparous",
-	"oviparous": "oviparous",
-	"land-snail": "of land snail",
-	"freshwater-snail": "of freshwater snail",
-	"species-desc": "$0 is a $1 species $2"
+	"viviparous": "a viviparous",
+	"oviparous": "an oviparous",
+	"land-snail": "of land snails",
+	"freshwater-snail": "of freshwater snails",
+	"saltwater-snail": "of saltwater snails",
+	"species-desc": "$0 is $1 species $2 in the family $3, superfamily $4."
 	
 }

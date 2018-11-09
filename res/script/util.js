@@ -1,5 +1,5 @@
 //const API = "http://localhost:8080/";
-const API = "https://snaildb.org:8080/";
+const API = "https://api.snaildb.org/";
 
 function get(uri, callback) {
 	var request = new XMLHttpRequest();

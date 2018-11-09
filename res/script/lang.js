@@ -29,12 +29,22 @@ function changeLanguage(l) {
 	}
 }
 
+function updateLang(langs) {
+	for(var i=0; i<langs.length; i++) {
+		var translation = getLang(langs[i].dataset.lang);
+		if(langs[i].dataset.args) {
+			const args = langs[i].dataset.args.split("|");
+			for(var j in args) {
+				translation = translation.replace("$" + j, getLang(args[j]));
+			}
+		}
+		langs[i].innerText = translation;
+	}
+}
+
 function updateLanguage(l) {
 	currentLanguage = l;
-	var langs = document.getElementsByClassName("lang");
-	for(var i=0; i<langs.length; i++) {
-		langs[i].innerText = lang[l][langs[i].dataset.lang];
-	}
+	updateLang(document.getElementsByClassName("lang"));
 	language.onchange();
 }
 

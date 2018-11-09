@@ -57,12 +57,21 @@ function displaySpecies(superfamily, family, genus, species) {
 	setTitle(`${capitalize(genus)} ${capitalize(species)}`);
 	var snail = clean();
 	addHeader(superfamily, family, genus, species);
-	var s = data.snails.superfamily[superfamily].family[family].genus[genus].speciess[species].subspecies;
+	var sp = data.snails.superfamily[superfamily].family[family].genus[genus].speciess[species];
+	var p = create("p");
+	p.className = "lang";
+	p.dataset.lang = "species-desc";
+	p.dataset.args = [capitalize(genus) + " " + capitalize(species), sp.viviparous ? "viviparous" : "oviparous", sp.type=="land" ? "land-snail" : ("freshwater-snail"), capitalize(family), capitalize(superfamily)].join("|");
+	updateLang([p]);
+	snail.appendChild(p);
+	var s = sp.subspecies;
 	for(var subspecies in s) {
 		var d = s[subspecies];
 		var div = create("div");
 		div.className = "subspecies";
-		if(s.length != 1 || s[species] == undefined) {
+		console.log(s);
+		console.log(species);
+		if(s.length != 1 || s[0].name != species) {
 			div.appendChild(create("span", getLang("subspecies"), "subspecies"));
 			div.appendChild(create("span", "&nbsp;"));
 			div.appendChild(create("span", capitalize(d.name)));
@@ -71,28 +80,16 @@ function displaySpecies(superfamily, family, genus, species) {
 		//TODO size of the shell
 		if(d.location) {
 			const locations = d.location.split(",");
-			var iso = [];
+			var iso = [["Country"]];
 			for(var i in locations) {
 				const s = locations[i].split(".");
-				iso.push("'" + s[0].toUpperCase() + "'");
+				iso.push([s[0].toUpperCase()]);
 			}
 			var map = create("div");
 			map.style.height = "384px";
 			div.appendChild(map);
-			var m = new google.maps.Map(map, {
-				center: {lat: 0, lng: 0},
-				zoom: 2,
-				disableDefaultUI: true
-			});
-			new google.maps.FusionTablesLayer({
-				query: {
-					select: 'geometry',
-					from: '1N2LBk4JHwWpOY4d9fobIn27lfnZ5MDy-NoqqRpk',
-					where: "ISO_2DIGIT IN (" + iso.join(", ") + ")"
-				},
-				map: m,
-				suppressInfoWindows: true
-			});
+			var chart = new google.visualization.GeoChart(map);
+			chart.draw(google.visualization.arrayToDataTable(iso), {});
 		}
 		snail.appendChild(div);
 	}
