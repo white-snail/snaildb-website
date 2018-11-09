@@ -16,6 +16,7 @@
 	
 	"snails": "Chiocciole",
 	"search": "Cerca",
+	"change-language": "Cambia lingua",
 	
 	"superfamilies": "Superfamiglie",
 	"superfamily": "superfamiglia",
@@ -28,6 +29,12 @@
 	"subspecies-p": "Sottospecie",
 	"subspecies": "sottospecie",
 	
-	"report": "Segnala un errore"
+	"report": "Segnala un errore",
+	
+	"viviparous": "vivipara",
+	"oviparous": "ovipara",
+	"land-snail": "chiocciola di terra",
+	"freshwater-snail": "chiocciola d'acqua dolce",
+	"species-desc": "$0 è una $2 $1"
 	
 }

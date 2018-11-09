@@ -23,7 +23,8 @@
 module app;
 
 import std.file;
-import std.string : endsWith;
+import std.json;
+import std.string : startsWith, endsWith;
 
 import lighttp;
 
@@ -32,18 +33,7 @@ void main() {
 	Server server = new Server();
 	
 	// index
-	{
-		debug server.router.add(Get(".*"), new SystemResource("text/html", "res/index.html"));
-		else server.router.add(Get(".*"), new Resource("text/html", read("res/index.html")));
-	}
-	
-	// other html
-	foreach(string file ; dirEntries("res", SpanMode.shallow)) {
-		if(file.endsWith(".html") && !file.endsWith("index.html")) {
-			debug server.router.add(Get(file[4..$-5]), new SystemResource("text/html", file));
-			else server.router.add(Get(file[4..$-5]), new Resource("text/html", read(file)));
-		}
-	}
+	server.router.add(new Router());
 	
 	// css
 	foreach(string file ; dirEntries("res/style", SpanMode.shallow)) {
@@ -77,6 +67,40 @@ void main() {
 	
 	server.host("0.0.0.0");
 	server.run();
+
+}
+
+class Router {
+
+	string[string][string] lang;
+	Resource index;
+	TemplatedResource header;
+	
+	this() {
+		// preload language files
+		foreach(string file ; dirEntries("res/lang", SpanMode.shallow)) {
+			immutable lang = file[9..$-5];
+			JSONValue json = parseJSON(cast(string)read(file));
+			foreach(key, value; json.object) {
+				this.lang[lang][key] = value.str;
+			}
+		}
+		debug index = new SystemResource("text/html", "res/index.html");
+		else index = new Resource("text/html", read("res/index.html"));
+		header = new TemplatedResource("text/html", read("res/header.html"));
+	}
+
+	@Get(".*") get(Request request, Response response) {
+		immutable agent = request.headers.get("user-agent", "");
+		immutable _lang = request.headers.get("accept-language", "");
+		immutable lang = _lang.length >= 2 && _lang[0..2] in this.lang ? _lang[0..2] : "en";
+		if(agent.length && (agent.startsWith("facebook"))) {
+			//TODO get data from api service
+			//TODO populate header
+		} else {
+			this.index.apply(request, response);
+		}
+	}
 
 }
 

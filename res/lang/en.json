@@ -30,6 +30,12 @@
 	"subspecies-p": "Subspecies",
 	"subspecies": "subspecies",
 	
-	"report": "Report an error"
+	"report": "Report an error",
+	
+	"viviparous": "viviparous",
+	"oviparous": "oviparous",
+	"land-snail": "of land snail",
+	"freshwater-snail": "of freshwater snail",
+	"species-desc": "$0 is a $1 species $2"
 	
 }

@@ -57,14 +57,17 @@ function displaySpecies(superfamily, family, genus, species) {
 	setTitle(`${capitalize(genus)} ${capitalize(species)}`);
 	var snail = clean();
 	addHeader(superfamily, family, genus, species);
-	for(var subspecies in data.snails.superfamily[superfamily].family[family].genus[genus].speciess[species].subspecies) {
-		var d = data.snails.superfamily[superfamily].family[family].genus[genus].speciess[species].subspecies[subspecies];
+	var s = data.snails.superfamily[superfamily].family[family].genus[genus].speciess[species].subspecies;
+	for(var subspecies in s) {
+		var d = s[subspecies];
 		var div = create("div");
 		div.className = "subspecies";
-		div.appendChild(create("span", getLang("subspecies"), undefined, "subspecies"));
-		div.appendChild(create("span", "&nbsp;"));
-		div.appendChild(create("span", capitalize(d.name)));
-		taxonomers(d, div);
+		if(s.length != 1 || s[species] == undefined) {
+			div.appendChild(create("span", getLang("subspecies"), "subspecies"));
+			div.appendChild(create("span", "&nbsp;"));
+			div.appendChild(create("span", capitalize(d.name)));
+			taxonomers(d, div);
+		}
 		//TODO size of the shell
 		if(d.location) {
 			const locations = d.location.split(",");

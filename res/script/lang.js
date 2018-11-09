@@ -12,7 +12,7 @@ var currentLanguage;
 
 function getLang(key) {
 	if(lang[currentLanguage] && lang[currentLanguage][key]) return lang[currentLanguage][key];
-	else return '...';
+	else return key;
 }
 
 function changeLanguage(l) {
