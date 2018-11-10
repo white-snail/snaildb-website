@@ -48,6 +48,7 @@ function displayGenus(superfamily, family, genus) {
 		var div = create("div");
 		div.appendChild(createLink(capitalize(d.name), `/snail/${superfamily}/${family}/${genus}/${d.name}`));
 		taxonomers(d, div);
+		if(d.extinct) div.appendChild(create("span", "&nbsp;†"));
 		snail.appendChild(div);
 	}
 	showSection("snail");
@@ -60,8 +61,8 @@ function displaySpecies(superfamily, family, genus, species) {
 	var sp = data.snails.superfamily[superfamily].family[family].genus[genus].speciess[species];
 	var p = create("p");
 	p.className = "lang";
-	p.dataset.lang = "species-desc";
-	p.dataset.args = [capitalize(genus) + " " + capitalize(species), sp.viviparous ? "viviparous" : "oviparous", sp.type=="land" ? "land-snail" : ("freshwater-snail"), capitalize(family), capitalize(superfamily)].join("|");
+	p.dataset.lang = "species-desc" + (sp.extinct ? "-extinct" : "");
+	p.dataset.args = [capitalize(genus) + " " + capitalize(species), sp.viviparous ? "viviparous" : "oviparous", sp.type + "-snail", capitalize(family)].join("|");
 	updateLang([p]);
 	snail.appendChild(p);
 	var s = sp.subspecies;
@@ -69,8 +70,6 @@ function displaySpecies(superfamily, family, genus, species) {
 		var d = s[subspecies];
 		var div = create("div");
 		div.className = "subspecies";
-		console.log(s);
-		console.log(species);
 		if(s.length != 1 || s[0].name != species) {
 			div.appendChild(create("span", getLang("subspecies"), "subspecies"));
 			div.appendChild(create("span", "&nbsp;"));
@@ -99,8 +98,21 @@ function displaySpecies(superfamily, family, genus, species) {
 function displayTaxonomer(taxonomer) {
 	var snail = clean();
 	const info = data.taxonomers[taxonomer];
+	console.log(info);
 	setTitle(`${info.name} ${info.surname}`);
-	//TODO
+	function display(type) {
+		if(info[type].length > 0) {
+			snail.appendChild(create("b", getLang(type), type));
+			for(var i in info[type]) {
+				const s = info[type][i];
+				var p = create("p");
+			}
+		}
+	}
+	display("superfamilies");
+	display("families");
+	display("genuses");
+	display("species");
 	showSection("snail");
 }
 

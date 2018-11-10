@@ -4,6 +4,7 @@
 	"about-desc-0": "The snail database provides informations, such as taxonomy, size and distribution of all living and extinct species of land, sea and freshwater snails.",
 	"about-title-1": "What is a snail?",
 	"about-desc-1": "A snail is a slow-moving gastropod with a spiral coiled shell and a soft body that can completely retract into the shell.",
+	"about-desc-2": "",
 	"about-title-2": "How can I use the database?",
 	"about-desc-2": "This website provides an interface to the SnailDB API. From the website it's possible to view snail informations. The APIs can also be used in other websites and are documented at the following page:",
 	"about-title-3": "How can I contribute?",
@@ -14,6 +15,9 @@
 	"notfound-desc": "The page at the requested address does not exist or it has been moved",
 	"error": "Cannot connect to the database",
 	"error-desc": "It is possible that there is no internet connection or the API server is down",
+	
+	"sources": "Sources",
+	"sources-desc": "Sources of information for the snail database, alphabetically ordered:",
 	
 	"snails": "Snails",
 	"search": "Search",
@@ -29,6 +33,7 @@
 	"species": "species",
 	"subspecies-p": "Subspecies",
 	"subspecies": "subspecies",
+	"living": "$0 living",
 	
 	"report": "Report an error",
 	
@@ -36,7 +41,8 @@
 	"oviparous": "an oviparous",
 	"land-snail": "of land snails",
 	"freshwater-snail": "of freshwater snails",
-	"saltwater-snail": "of saltwater snails",
-	"species-desc": "$0 is $1 species $2 in the family $3, superfamily $4."
+	"saltwater-snail": "of sea snails",
+	"species-desc": "$0 is $1 species $2 in the family $3.",
+	"species-desc-extinct": "$0 was $1 species $2 in the family $3."
 	
 }

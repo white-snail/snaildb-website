@@ -94,6 +94,9 @@ class Router {
 		immutable agent = request.headers.get("user-agent", "");
 		immutable _lang = request.headers.get("accept-language", "");
 		immutable lang = _lang.length >= 2 && _lang[0..2] in this.lang ? _lang[0..2] : "en";
+		import std.stdio;
+		writeln(agent);
+		writeln(lang);
 		if(agent.length && (agent.startsWith("facebook"))) {
 			//TODO get data from api service
 			//TODO populate header

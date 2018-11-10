@@ -5,6 +5,7 @@ var lang = {
 };
 
 var language = {
+	loaded: false,
 	onchange: function(lang) {}
 }
 
@@ -44,6 +45,7 @@ function updateLang(langs) {
 
 function updateLanguage(l) {
 	currentLanguage = l;
+	language.loaded = true;
 	updateLang(document.getElementsByClassName("lang"));
 	language.onchange();
 }

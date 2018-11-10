@@ -56,6 +56,10 @@ footer {
 	font-size: 11px;
 }
 
+#sources > a {
+	display: block;
+}
+
 #open-menu {
 	display: none;
 	width: 32px;

@@ -54,10 +54,14 @@ function updateUri() {
 			document.getElementById("families").innerText = d.families;
 			document.getElementById("genuses").innerText = d.genuses;
 			document.getElementById("species").innerText = d.species;
-			document.getElementById("subspecies").innerText = d.subspecies;
+		});
+		get("getinfo/speciesnotextinct", (d) => {
+			document.getElementById("living").dataset.args = d;
+			if(language.loaded) updateLang([document.getElementById("living")]);
 		});
 		function displaySuperfamiliesIndex() {
 			var list = document.getElementById("superfamilies-list");
+			list.innerText = "";
 			for(var key in data.snails.superfamily) {
 				var div = create("div");
 				div.appendChild(createLink(capitalize(key), `snail/${key}`));
@@ -166,6 +170,9 @@ function updateUri() {
 				get(`getsnailbyname/${superfamily}/${family}/${genus}/${species}`, handle);
 			}
 		},
+		"taxonomer": () => {
+			//TODO list of taxonomers
+		},
 		"taxonomer/:taxonomer": (params) => {
 			showLoader();
 			const taxonomer = params.taxonomer.toLowerCase();
@@ -181,6 +188,10 @@ function updateUri() {
 					}
 				});
 			}
+		},
+		"sources": () => {
+			setTitle(getLang("sources"), "sources");
+			showSection("sources")
 		}
 	});
 	router.notFound(notFound);
