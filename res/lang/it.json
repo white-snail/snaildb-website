@@ -17,7 +17,7 @@
 	"error-desc": "E' possibile che la connessione ad internet sia assente o che il server API non sia disponibile",
 	
 	"sources": "Fonti",
-	"sources-desc": "Fonti di informazione per il database delle chiocciole, in ordine alfabetico:",
+	"sources-desc": "Fonti di informazione per il database delle chiocciole in ordine alfabetico.",
 	
 	"snails": "Chiocciole",
 	"search": "Cerca",
@@ -46,6 +46,14 @@
 	"freshwater-snail": "chiocciole d'acqua dolce",
 	"saltwater-snail": "chiocciole di mare",
 	"species-desc": "$0 è una specie di $2 $1 della famiglia $3.",
-	"species-desc-extinct": "$0 era una specie di $2 $1 della famiglia $3."
+	"species-desc-extinct": "$0 era una specie di $2 $1 della famiglia $3.",
+	
+	"width": "Larghezza:",
+	"height": "Altezza:",
+	"lifespan": "Aspettativa di vita:",
+	"lifespan-month": "fino ad un mese",
+	"lifespan-months": "fino a $0 mesi",
+	"lifespan-year": "fino ad un anno",
+	"lifespan-years": "fino a $0 anni"
 	
 }

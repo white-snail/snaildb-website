@@ -76,7 +76,39 @@ function displaySpecies(superfamily, family, genus, species) {
 			div.appendChild(create("span", capitalize(d.name)));
 			taxonomers(d, div);
 		}
-		//TODO size of the shell
+		var table = create("table");
+		table.style.borderSpacing = "0";
+		function add(title, content) {
+			var tr = create("tr");
+			var td1 = create("td");
+			var td2 = create("td");
+			td1.style.textAlign = "right";
+			td1.appendChild(title);
+			td2.appendChild(content);
+			tr.appendChild(td1);
+			tr.appendChild(td2);
+			table.appendChild(tr);
+		}
+		if(d.minWidth) {
+			add(create("span", getLang("width"), "width"), create("span", d.maxWidth==undefined||d.maxWidth==d.minWidth ? d.minWidth : `${d.minWidth}-${d.maxWidth}` + " mm"));
+		}
+		if(d.minHeight) {
+			add(create("span", getLang("height"), "height"), create("span", d.maxHeight==undefined||d.maxHeight==d.minHeight ? d.minHeight : `${d.minHeight}-${d.maxHeight}` + " mm"));
+		}
+		if(d.lifespan) {
+			var lifespan = create("span");
+			lifespan.className = "lang";
+			if(d.lifespan < 12) {
+				lifespan.dataset.lang = "lifespan-" + (d.lifespan==1 ? "month" : "months");
+			} else {
+				d.lifespan /= 12;
+				lifespan.dataset.lang = "lifespan-" + (d.lifespan==1 ? "year" : "years");
+			}
+			lifespan.dataset.args = d.lifespan;
+			updateLang([lifespan]);
+			add(create("span", getLang("lifespan"), "lifespan"), lifespan);
+		}
+		snail.appendChild(table);
 		if(d.location) {
 			const locations = d.location.split(",");
 			var iso = [["Country"]];

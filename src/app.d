@@ -24,9 +24,12 @@ module app;
 
 import std.file;
 import std.json;
-import std.string : startsWith, endsWith;
+import std.net.curl : g = get;
+import std.string : split, replace, capitalize;
 
 import lighttp;
+
+enum api = "https://api.snaildb.org/";
 
 void main() {
 
@@ -34,6 +37,9 @@ void main() {
 	
 	// index
 	server.router.add(new Router());
+	
+	// robots.txt
+	server.router.add(Get("robots.txt"), new CachedResource("text/plain", read("res/robots.txt")));
 	
 	// icon
 	server.router.add(Get("favicon.ico"), new CachedResource("image/x-icon", read("res/favicon.ico")));
@@ -83,7 +89,7 @@ class Router {
 		// preload language files
 		foreach(string file ; dirEntries("res/lang", SpanMode.shallow)) {
 			immutable lang = file[9..$-5];
-			this.raw[lang] = cast(string)read(file);
+			this.raw[lang] = (cast(string)read(file)).replace("\n", "").replace("\r", "").replace("\t", "");
 			JSONValue json = parseJSON(this.raw[lang]);
 			foreach(key, value; json.object) {
 				this.lang[lang][key] = value.str;
@@ -92,18 +98,101 @@ class Router {
 		index = new TemplatedResource("text/html", read("res/index.html"));
 	}
 
-	@Get(".*") get(Request request, Response response) {
+	@Get(".*") _(Request request, Response response) {
 		immutable _lang = request.headers.get("accept-language", "");
 		immutable lang = _lang.length >= 2 && _lang[0..2] in this.lang ? _lang[0..2] : "en";
 		string[string] data;
 		data["lang"] = lang;
 		data["title"] = this.lang[lang]["title"];
 		data["description"] = this.lang[lang]["about-desc-0"];
-		data["url"] = request.path;
+		data["url"] = "https://snaildb.org" ~ request.path;
 		data["preload_lang"] = this.raw[lang];
+		data["preload_uri"] = "";
 		data["preload_data"] = "{}";
+		void setTitle(string title) {
+			data["title"] = title ~ " - " ~ this.lang[lang]["title"];
+		}
+		void notFound() {
+			data["title"] = this.lang[lang]["notfound"];
+			data["description"] = this.lang[lang]["notfound-desc"];
+			response.status = StatusCodes.notFound;
+		}
 		if(request.path.length > 1) {
-			//TODO get data from api service
+			immutable split = request.path[1..$].split("/");
+			if(split.length == 1) {
+				switch(split[0]) {
+					case "snail":
+						setTitle(this.lang[lang]["list-superfamilies"]);
+						break;
+					case "taxonomer":
+						setTitle(this.lang[lang]["list-taxonomers"]);
+						break;
+					case "search":
+						//TODO
+						break;
+					case "sources":
+						setTitle(this.lang[lang]["sources"]);
+						data["description"] = this.lang[lang]["sources-desc"];
+						break;
+					default:
+						notFound();
+				}
+			} else if(split[0] == "snail" && split.length <= 5) {
+				final switch(split.length) {
+					case 2:
+						immutable uri = "getsnailbyname/" ~ split[1];
+						immutable d = g(api ~ uri).idup;
+						auto json = parseJSON(d);
+						if(json["result"].type == JSON_TYPE.OBJECT) {
+							setTitle(capitalize(json["result"]["name"].str));
+							//TODO set description
+							data["preload_uri"] = uri;
+							data["preload_data"] = d;
+						} else {
+							notFound();
+						}
+						break;
+					case 3:
+						immutable uri = "getsnailbyname/" ~ split[1] ~ "/" ~ split[2];
+						immutable d = g(api ~ uri).idup;
+						auto json = parseJSON(d);
+						if(json["result"].type == JSON_TYPE.OBJECT) {
+							setTitle(capitalize(json["result"]["name"].str));
+							//TODO set description
+							data["preload_uri"] = uri;
+							data["preload_data"] = d;
+						} else {
+							notFound();
+						}
+						break;
+					case 4:
+						immutable uri = "getsnailbyname/" ~ split[1] ~ "/" ~ split[2] ~ "/" ~ split[3];
+						immutable d = g(api ~ uri).idup;
+						auto json = parseJSON(d);
+						if(json["result"].type == JSON_TYPE.OBJECT) {
+							setTitle(capitalize(json["result"]["name"].str));
+							//TODO set description
+							data["preload_uri"] = uri;
+							data["preload_data"] = d;
+						} else {
+							notFound();
+						}
+						break;
+					case 5:
+						immutable uri = "getsnailbyname/" ~ split[1] ~ "/" ~ split[2] ~ "/" ~ split[3] ~ "/" ~ split[4];
+						immutable d = g(api ~ uri).idup;
+						auto json = parseJSON(d);
+						if(json["result"].type == JSON_TYPE.OBJECT) {
+							setTitle(capitalize(json["result"]["name"].str));
+							//TODO set description
+							data["preload_uri"] = uri;
+							data["preload_data"] = d;
+						} else {
+							notFound();
+						}
+						break;
+				}
+			}
 		}
 		this.index.apply(data).apply(request, response);
 	}

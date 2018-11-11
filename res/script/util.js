@@ -2,26 +2,18 @@
 const API = "https://api.snaildb.org/";
 
 function get(uri, callback) {
-	var request = new XMLHttpRequest();
-	request.onload = () => callback(JSON.parse(request.responseText));
-	request.onerror = () => {
-		setTitle(getLang("error"), "error");
-		showSection("error");
-	};
-	request.open("GET", API + uri);
-	request.send();
-}
-
-function post(uri, params, callback) {
-	var request = new XMLHttpRequest();
-	request.onload = () => callback(JSON.parse(request.responseText));
-	request.onerror = () => {
-		setTitle(getLang("error"), "error");
-		showSection("error");
-	};
-	request.open("POST", API + uri);
-	request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	request.send(params);
+	if(uri == preload.uri) {
+		callback(preload.data);
+	} else {
+		var request = new XMLHttpRequest();
+		request.onload = () => callback(JSON.parse(request.responseText));
+		request.onerror = () => {
+			setTitle(getLang("error"), "error");
+			showSection("error");
+		};
+		request.open("GET", API + uri);
+		request.send();
+	}
 }
 
 function go(uri) {
