@@ -89,11 +89,11 @@ function displaySpecies(superfamily, family, genus, species) {
 			tr.appendChild(td2);
 			table.appendChild(tr);
 		}
-		if(d.minWidth) {
-			add(create("span", getLang("width"), "width"), create("span", d.maxWidth==undefined||d.maxWidth==d.minWidth ? d.minWidth : `${d.minWidth}-${d.maxWidth}` + " mm"));
+		if(d.minWidth || d.maxWidth) {
+			add(create("span", getLang("width"), "width"), create("span", d.maxWidth==undefined||d.maxWidth==d.minWidth ? d.minWidth : (d.minWidth==undefined ? d.maxWidth : `${d.minWidth}-${d.maxWidth}`) + " mm"));
 		}
-		if(d.minHeight) {
-			add(create("span", getLang("height"), "height"), create("span", d.maxHeight==undefined||d.maxHeight==d.minHeight ? d.minHeight : `${d.minHeight}-${d.maxHeight}` + " mm"));
+		if(d.minHeight || d.maxHeight) {
+			add(create("span", getLang("height"), "height"), create("span", d.maxHeight==undefined||d.maxHeight==d.minHeight ? d.minHeight : (d.minHeight==undefined ? d.maxHeight : `${d.minHeight}-${d.maxHeight}`) + " mm"));
 		}
 		if(d.lifespan) {
 			var lifespan = create("span");
@@ -193,7 +193,7 @@ function taxonomers(data, parent) {
 	if(data.taxonomyYear > 0) {
 		parent.appendChild(create("span", "&nbsp;("));
 		for(var i in data.taxonomers) {
-			parent.appendChild(createLink(data.taxonomers[i].surname, `/taxonomer/${data.taxonomers[i].surname.toLowerCase()}`));
+			parent.appendChild(createLink(data.taxonomers[i].surname, `/taxonomer/${data.taxonomers[i].id}`));
 			if(i == data.taxonomers.length - 2) parent.appendChild(create("span", " & "));
 			else parent.appendChild(create("span", ", "));
 		}

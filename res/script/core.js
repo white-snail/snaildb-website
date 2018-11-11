@@ -186,12 +186,12 @@ function updateUri() {
 			}
 		},
 		"taxonomer/:taxonomer": (params) => {
-			const taxonomer = params.taxonomer.toLowerCase();
+			const taxonomer = params.taxonomer;
 			if(data.taxonomers[taxonomer]) {
 				displayTaxonomer(taxonomer);
 			} else {
 				showLoader();
-				get(`gettaxonomerbyname/${taxonomer}`, (d) => {
+				get(`gettaxonomerbyid/${taxonomer}`, (d) => {
 					if(d.result) {
 						data.taxonomers[taxonomer] = d.result;
 						displayTaxonomer(taxonomer);
