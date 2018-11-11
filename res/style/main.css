@@ -22,6 +22,10 @@ a, a:hover, a:visited {
 	width: 192px;
 }
 
+.nav p {
+	margin: 0;
+}
+
 #logo {
 	width: 176px;
 }
@@ -61,11 +65,16 @@ footer {
 }
 
 #open-menu {
-	display: none;
-	width: 32px;
-	vertical-align: -4px;
 	margin-right: 16px;
 	margin-left: 8px;
+}
+
+.mobile {
+	display: none;
+}
+
+header .material-icons {
+	vertical-align: -4px;
 }
 
 #close-menu {
@@ -124,8 +133,8 @@ footer {
 		border-radius: 0;
 	}
 	
-	#open-menu {
-		display: inline-block;
+	.mobile {
+		display: table-cell;
 	}
 	
 	#close-menu {

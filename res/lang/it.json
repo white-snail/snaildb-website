@@ -9,6 +9,8 @@
 	"about-title-3": "Come posso contribuire?",
 	"stats": "Statistiche",
 	
+	"loading": "Caricamento...",
+	
 	"notfound": "Pagina non trovata",
 	"notfound-desc": "La pagina all'indirizzo richiesto non esiste o è stata spostata",
 	"error": "Impossibile connettersi al database",
@@ -20,6 +22,9 @@
 	"snails": "Chiocciole",
 	"search": "Cerca",
 	"change-language": "Cambia lingua",
+	
+	"list-superfamilies": "Lista delle superfamiglie",
+	"list-taxonomers": "Lista dei tassonomisti",
 	
 	"superfamilies": "Superfamiglie",
 	"superfamily": "superfamiglia",
@@ -40,7 +45,7 @@
 	"land-snail": "chiocciole di terra",
 	"freshwater-snail": "chiocciole d'acqua dolce",
 	"saltwater-snail": "chiocciole di mare",
-	"species-desc": "$0 è una specie di $2 $1 della famiglia $3",
-	"species-desc-extinct": "$0 era una specie di $2 $1 della famiglia $3"
+	"species-desc": "$0 è una specie di $2 $1 della famiglia $3.",
+	"species-desc-extinct": "$0 era una specie di $2 $1 della famiglia $3."
 	
 }

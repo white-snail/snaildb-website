@@ -3,7 +3,10 @@ var data = {
 		all: false,
 		superfamily: {}
 	},
-	taxonomers: {}
+	taxonomers: {
+		all: false,
+		list: []
+	}
 };
 
 var router;
@@ -171,14 +174,23 @@ function updateUri() {
 			}
 		},
 		"taxonomer": () => {
-			//TODO list of taxonomers
+			if(data.taxonomers.all) {
+				displayTaxonomers();
+			} else {
+				showLoader();
+				get("getalltaxonomers", (d) => {
+					d.sort((a, b) => a.surname.toLowerCase().localeCompare(b.surname.toLowerCase()));
+					data.taxonomers.list = d;
+					displayTaxonomers();
+				});
+			}
 		},
 		"taxonomer/:taxonomer": (params) => {
-			showLoader();
 			const taxonomer = params.taxonomer.toLowerCase();
 			if(data.taxonomers[taxonomer]) {
 				displayTaxonomer(taxonomer);
 			} else {
+				showLoader();
 				get(`gettaxonomerbyname/${taxonomer}`, (d) => {
 					if(d.result) {
 						data.taxonomers[taxonomer] = d.result;
@@ -192,6 +204,9 @@ function updateUri() {
 		"sources": () => {
 			setTitle(getLang("sources"), "sources");
 			showSection("sources")
+		},
+		"search": () => {
+			//TODO
 		}
 	});
 	router.notFound(notFound);

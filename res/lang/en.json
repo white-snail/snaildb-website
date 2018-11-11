@@ -11,6 +11,8 @@
 	"about-desc-3": "",
 	"stats": "Stats",
 	
+	"loading": "Loading...",
+	
 	"notfound": "Page not found",
 	"notfound-desc": "The page at the requested address does not exist or it has been moved",
 	"error": "Cannot connect to the database",
@@ -22,6 +24,9 @@
 	"snails": "Snails",
 	"search": "Search",
 	"change-language": "Change language",
+	
+	"list-superfamilies": "List of superfamilies",
+	"list-taxonomers": "List of taxonomers",
 	
 	"superfamilies": "Superfamilies",
 	"superfamily": "superfamily",

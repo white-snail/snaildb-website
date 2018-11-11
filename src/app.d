@@ -35,6 +35,9 @@ void main() {
 	// index
 	server.router.add(new Router());
 	
+	// icon
+	server.router.add(Get("favicon.ico"), new CachedResource("image/x-icon", read("res/favicon.ico")));
+	
 	// css
 	foreach(string file ; dirEntries("res/style", SpanMode.shallow)) {
 		debug server.router.add(Get("style/" ~ file[10..$]), new SystemResource("text/css", file));
@@ -72,37 +75,36 @@ void main() {
 
 class Router {
 
+	string[string] raw;
 	string[string][string] lang;
-	Resource index;
-	TemplatedResource header;
+	TemplatedResource index;
 	
 	this() {
 		// preload language files
 		foreach(string file ; dirEntries("res/lang", SpanMode.shallow)) {
 			immutable lang = file[9..$-5];
-			JSONValue json = parseJSON(cast(string)read(file));
+			this.raw[lang] = cast(string)read(file);
+			JSONValue json = parseJSON(this.raw[lang]);
 			foreach(key, value; json.object) {
 				this.lang[lang][key] = value.str;
 			}
 		}
-		debug index = new SystemResource("text/html", "res/index.html");
-		else index = new Resource("text/html", read("res/index.html"));
-		header = new TemplatedResource("text/html", read("res/header.html"));
+		index = new TemplatedResource("text/html", read("res/index.html"));
 	}
 
 	@Get(".*") get(Request request, Response response) {
-		immutable agent = request.headers.get("user-agent", "");
 		immutable _lang = request.headers.get("accept-language", "");
 		immutable lang = _lang.length >= 2 && _lang[0..2] in this.lang ? _lang[0..2] : "en";
-		import std.stdio;
-		writeln(agent);
-		writeln(lang);
-		if(agent.length && (agent.startsWith("facebook"))) {
+		string[string] data;
+		data["lang"] = lang;
+		data["title"] = this.lang[lang]["title"];
+		data["description"] = this.lang[lang]["about-desc-0"];
+		data["url"] = request.path;
+		if(request.path.length > 1) {
 			//TODO get data from api service
 			//TODO populate header
-		} else {
-			this.index.apply(request, response);
 		}
+		this.index.apply(data).apply(request, response);
 	}
 
 }

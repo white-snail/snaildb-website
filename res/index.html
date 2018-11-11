@@ -1,13 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ lang }}">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="theme-color" content="#24292e" />
+		<meta name="description" content="{{ description }}" />
+		<meta property="og:title" content="{{ title }}" />
+		<meta property="og:description" content="{{ description }}" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="{{ url }}" />
+		<meta property="og:site_name" content="SnailDB" />
+		<title>{{ title }}</title>
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 		<link rel="icon" type="image/png" href="/img/logo.png" />
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link href="/style/main.css" rel="stylesheet" />
-		<script src="https://unpkg.com/navigo@6"></script>
+		<script src="https://unpkg.com/navigo@6.0.2/lib/navigo.min.js"></script>
 		<script src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type='text/javascript'>
 			google.charts.load('current', {
@@ -30,11 +39,12 @@
 	<body>
 		<div id="container">
 			<header>
-				<table style="border-spacing:0px">
+				<table style="width:100%;border-spacing:0px">
 					<tr>
-						<td><img id="open-menu" src="/img/menu.svg" /></td>
-						<td></td>
-						<td><h1 id="title"></h1></td>
+						<td width="1" class="mobile"><span id="open-menu" class="material-icons">menu</span></td>
+						<td width="1" class="mobile"><a href="/"><span class="material-icons" style="margin-right:16px">home</span></a></td>
+						<td><h2 id="title"></h2></td>
+						<td width="1"><a href="/search"><span class="material-icons">search</span></a></td>
 					</tr>
 				</table>
 			</header>
@@ -70,45 +80,28 @@
 				</div>
 			</section>
 			<section id="notfound">
-				<div class="empty">
-					<div class="empty-icon">
-						<i class="icon icon-3x icon-stop"></i>
-					</div>
-					<p class="empty-subtitle lang" data-lang="notfound-desc"></p>
-					<div class="empty-action">
-						<form onsubmit="search(event)">
-							<div class="input-group input-inline">
-								<input class="form-input search" type="text" />
-								<button class="btn btn-primary input-group-btn lang" data-lang="search"></button>
-							</div>
-						</form>
-					</div>
-				</div>
+				<p class="lang" data-lang="notfound-desc"></p>
 			</section>
 			<section id="error">
-				<div class="empty">
-					<div class="empty-icon">
-						<i class="icon icon-3x icon-refresh" onclick="window.location.reload()"></i>
-					</div>
-					<p class="empty-subtitle lang" data-lang="error-desc"></p>
-				</div>
+				<span class="material-icons" onclick="window.location.reload()">refresh</span>
+				<p class="lang" data-lang="error-desc"></p>
 			</section>
 			<section id="sources">
 				<p class="lang" data-lang="sources-desc"></p>
-				<a href="http://applesnail.net">applesnail.net</a>
-				<a href="http://marinespecies.org">marinespecies.org</a>
-				<a href="https://wikipedia.org">wikipedia.org</a>
+				<a href="//applesnail.net">applesnail.net</a>
+				<a href="//iucnredlist.org">iucnredlist.org</a>
+				<a href="//marinespecies.org">marinespecies.org</a>
+				<a href="//petsnails.co.uk">petsnails.co.uk</a>
+				<a href="//wikipedia.org">wikipedia.org</a>
 			</section>
 			<section id="snail">
 			
 			</section>
 			<section id="loading">
-				<div class="loading loading-lg"></div>
+				<p class="lang" data-lang="loading"></p>
 			</section>
 			<footer>
 				<a href="mailto:info@snaildb.org?subject=SnailDB%20Error%20Report" class="lang" data-lang="report"></a>
-				<span> | </span>
-				<a href="https://github.com/white-snail" target="_blank">GitHub</a>
 				<span> | </span>
 				<span>© 2018 Kasokuz</span>
 			</footer>
@@ -117,20 +110,15 @@
 			<a href="/">
 				<img id="logo" src="/img/logo.png" />
 			</a>
-			<img id="close-menu" src="/img/close.svg" />
+			<span id="close-menu" class="material-icons">close</span>
 			<div class="nav">
-				<div class="has-icon-right">
-					<form onsubmit="search(event)">
-						<input class="search" type="text" />
-						<button class="lang" data-lang="search"></button>
-					</form>
-				</div>
+				<a href="/sources" class="lang" data-lang="sources"></a>
 			</div>
 			<div class="nav">
 				<p class="lang" data-lang="change-language"></p>
 				<img class="flag" src="/img/uk.svg" onclick="changeLanguage('en')" />
 				<img class="flag" src="/img/it.svg" onclick="changeLanguage('it')" />
-				<img class="flag" src="/img/es.svg" onclick="changeLanguage('es')" />
+				<!--<img class="flag" src="/img/es.svg" onclick="changeLanguage('es')" />-->
 			</div>
 		</div>
 	</body>

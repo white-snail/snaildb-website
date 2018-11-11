@@ -1,6 +1,6 @@
 function displaySuperfamilies() {
 	var snail = clean();
-	setTitle(getLang("superfamilies"), "superfamilies");
+	setTitle(getLang("list-superfamilies"), "list-superfamilies");
 	for(var superfamily in data.snails.superfamily) {
 		var d = data.snails.superfamily[superfamily];
 		var div = create("div");
@@ -90,6 +90,18 @@ function displaySpecies(superfamily, family, genus, species) {
 			var chart = new google.visualization.GeoChart(map);
 			chart.draw(google.visualization.arrayToDataTable(iso), {});
 		}
+		snail.appendChild(div);
+	}
+	showSection("snail");
+}
+
+function displayTaxonomers() {
+	var snail = clean();
+	setTitle(getLang("list-taxonomers"), "list-taxonomers");
+	for(var i in data.taxonomers.list) {
+		const t = data.taxonomers.list[i];
+		var div = create("div");
+		div.appendChild(createLink(t.name.length ? `${t.surname}, ${t.name}` : t.surname, `taxonomer/${t.surname.toLowerCase()}`));
 		snail.appendChild(div);
 	}
 	showSection("snail");
