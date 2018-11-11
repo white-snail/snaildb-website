@@ -68,7 +68,7 @@ void main() {
 		else server.router.add(Get("lang/" ~ file[9..$]), new CachedResource("application/json", read(file)));
 	}
 	
-	server.host("0.0.0.0");
+	server.host("0.0.0.0", 3000);
 	server.run();
 
 }
@@ -100,9 +100,10 @@ class Router {
 		data["title"] = this.lang[lang]["title"];
 		data["description"] = this.lang[lang]["about-desc-0"];
 		data["url"] = request.path;
+		data["preload_lang"] = this.raw[lang];
+		data["preload_data"] = "{}";
 		if(request.path.length > 1) {
 			//TODO get data from api service
-			//TODO populate header
 		}
 		this.index.apply(data).apply(request, response);
 	}

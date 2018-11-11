@@ -18,13 +18,18 @@ function getLang(key) {
 
 function changeLanguage(l) {
 	if(lang[l].length == 0) {
-		var request = new XMLHttpRequest();
-		request.onload = () => {
-			lang[l] = JSON.parse(request.responseText);
+		if(preload.lang[l]) {
+			lang[l] = preload.lang[l];
 			updateLanguage(l);
+		} else {
+			var request = new XMLHttpRequest();
+			request.onload = () => {
+				lang[l] = JSON.parse(request.responseText);
+				updateLanguage(l);
+			}
+			request.open("GET", `${window.location.origin}/lang/${l}.json`);
+			request.send();
 		}
-		request.open("GET", `${window.location.origin}/lang/${l}.json`);
-		request.send();
 	} else {
 		updateLanguage(l);
 	}
