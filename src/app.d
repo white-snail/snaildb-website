@@ -22,6 +22,7 @@
  */
 module app;
 
+import std.conv : to;
 import std.file;
 import std.json;
 import std.net.curl : g = get;
@@ -36,7 +37,7 @@ void main() {
 	Server server = new Server();
 	
 	// index
-	server.router.add(new Router());
+	server.router.add(new IndexRouter());
 	
 	// robots.txt
 	server.router.add(Get("robots.txt"), new CachedResource("text/plain", read("res/robots.txt")));
@@ -45,16 +46,10 @@ void main() {
 	server.router.add(Get("favicon.ico"), new CachedResource("image/x-icon", read("res/favicon.ico")));
 	
 	// css
-	foreach(string file ; dirEntries("res/style", SpanMode.shallow)) {
-		debug server.router.add(Get("style/" ~ file[10..$]), new SystemResource("text/css", file));
-		else server.router.add(Get("style/" ~ file[10..$]), new CachedResource("text/css", read(file)));
-	}
+	server.router.add(Get("styles.css"), new MergedResource("text/css", "res/style/"));
 	
 	// javascript
-	foreach(string file ; dirEntries("res/script", SpanMode.shallow)) {
-		debug server.router.add(Get("script/" ~ file[11..$]), new SystemResource("application/javascript", file));
-		else server.router.add(Get("script/" ~ file[11..$]), new CachedResource("application/javascript", read(file)));
-	}
+	server.router.add(Get("scripts.js"), new MergedResource("application/javascript", "res/script/"));
 	
 	// png images
 	foreach(string file ; dirEntries("res/img", SpanMode.shallow)) {
@@ -71,7 +66,7 @@ void main() {
 	// language files
 	foreach(string file ; dirEntries("res/lang", SpanMode.shallow)) {
 		debug server.router.add(Get("lang/" ~ file[9..$]), new SystemResource("application/json", file));
-		else server.router.add(Get("lang/" ~ file[9..$]), new CachedResource("application/json", read(file)));
+		else server.router.add(Get("lang/" ~ file[9..$]), new Resource("application/json", read(file)));
 	}
 	
 	server.host("0.0.0.0", 3000);
@@ -79,26 +74,34 @@ void main() {
 
 }
 
-class Router {
+class IndexRouter {
 
-	string[string] raw;
-	string[string][string] lang;
-	TemplatedResource index;
+	private string[string] raw;
+	private string[string][string] lang;
+	private TemplatedResource index;
 	
-	this() {
+	private string species;
+	
+	debug {} else this() {
 		// preload language files
+		this.load();
+	}
+	
+	private void load() {
 		foreach(string file ; dirEntries("res/lang", SpanMode.shallow)) {
 			immutable lang = file[9..$-5];
-			this.raw[lang] = (cast(string)read(file)).replace("\n", "").replace("\r", "").replace("\t", "");
+			this.raw[lang] = minify(cast(string)read(file));
 			JSONValue json = parseJSON(this.raw[lang]);
 			foreach(key, value; json.object) {
 				this.lang[lang][key] = value.str;
 			}
 		}
 		index = new TemplatedResource("text/html", read("res/index.html"));
+		species = to!string(cast(int)(cast(float)parseJSON(g(api ~ "getinfo/total"))["species"].integer / 100) * 100);
 	}
 
 	@Get(".*") _(Request request, Response response) {
+		debug load();
 		immutable _lang = request.headers.get("accept-language", "");
 		immutable lang = _lang.length >= 2 && _lang[0..2] in this.lang ? _lang[0..2] : "en";
 		string[string] data;
@@ -109,8 +112,18 @@ class Router {
 		data["preload_lang"] = this.raw[lang];
 		data["preload_uri"] = "";
 		data["preload_data"] = "{}";
+		data["api"] = api;
+		data["species"] = this.species;
 		void setTitle(string title) {
 			data["title"] = title ~ " - " ~ this.lang[lang]["title"];
+		}
+		void setDescription(string l, string[] args) {
+			string desc = this.lang[lang][l];
+			foreach(i, arg; args) {
+				auto ptr = arg in this.lang[lang];
+				desc = desc.replace("$" ~ i.to!string, ptr ? *ptr : arg);
+			}
+			data["description"] = desc;
 		}
 		void notFound() {
 			data["title"] = this.lang[lang]["notfound"];
@@ -128,7 +141,8 @@ class Router {
 						setTitle(this.lang[lang]["list-taxonomers"]);
 						break;
 					case "search":
-						//TODO
+						setTitle(this.lang[lang]["search"]);
+						setDescription("search-desc", [this.species]);
 						break;
 					case "sources":
 						setTitle(this.lang[lang]["sources"]);
@@ -144,8 +158,9 @@ class Router {
 						immutable d = g(api ~ uri).idup;
 						auto json = parseJSON(d);
 						if(json["result"].type == JSON_TYPE.OBJECT) {
-							setTitle(capitalize(json["result"]["name"].str));
-							//TODO set description
+							immutable name = capitalize(json["result"]["name"].str);
+							setTitle(name);
+							setDescription("superfamily-desc", [name, json["result"]["type"].str ~ "-snail"]);
 							data["preload_uri"] = uri;
 							data["preload_data"] = d;
 						} else {
@@ -199,6 +214,31 @@ class Router {
 
 }
 
+class MergedResource : Resource {
+
+	private string path;
+	
+	this(string mime, string path) {
+		super(mime);
+		this.path = path;
+		debug {} else this.uncompressed = load();
+	}
+	
+	private string load() {
+		string ret = "";
+		foreach(string file ; dirEntries(this.path, SpanMode.shallow)) {
+			ret ~= cast(string)read(file);
+		}
+		return ret;
+	}
+	
+	debug override void apply(Request req, Response res) {
+		this.uncompressed = load();
+		super.apply(req, res);
+	}
+
+}
+
 debug class SystemResource : Resource {
 
 	private immutable string path;
@@ -213,4 +253,8 @@ debug class SystemResource : Resource {
 		super.apply(req, res);
 	}
 
+}
+
+string minify(string str) {
+	return str.replace("\n", "").replace("\r", "").replace("\t", "");
 }

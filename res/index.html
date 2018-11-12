@@ -12,13 +12,12 @@
 		<meta property="og:site_name" content="SnailDB" />
 		<title>{{ title }}</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
-		<link rel="icon" type="image/png" href="/img/logo.png" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-		<link href="/style/main.css" rel="stylesheet" />
+		<link rel="stylesheet" href="/styles.css" />
 		<script src="https://unpkg.com/navigo@6.0.2/lib/navigo.min.js"></script>
 		<script src="https://www.gstatic.com/charts/loader.js"></script>
-		<script type='text/javascript'>
+		<script>
 			google.charts.load('current', {
 				'packages': ['geochart'],
 				'mapsApiKey': 'AIzaSyDhIMUL9Bk3yk38Gkmzvgc9kQEWWfI1gDI'
@@ -39,11 +38,9 @@
 				uri: "{{ preload_uri }}",
 				data: {{ preload_data }}
 			}
+			const API = "{{ api }}";
 		</script>
-		<script src="/script/util.js"></script>
-		<script src="/script/core.js"></script>
-		<script src="/script/lang.js"></script>
-		<script src="/script/snail.js"></script>
+		<script src="/scripts.js"></script>
 	</head>
 	<body>
 		<div id="container">
@@ -83,12 +80,13 @@
 					<p>
 						<span class="lang" data-lang="superfamilies"></span>: <span id="superfamilies"></span><br>
 						<span class="lang" data-lang="families"></span>: <span id="families"></span><br>
-						<span class="lang" data-lang="genuses"></span>: <span id="genuses"></span><br>
+						<span class="lang" data-lang="genera"></span>: <span id="genera"></span><br>
 						<span class="lang" data-lang="species-p"></span>: <span id="species"></span> (<span id="living" class="lang" data-lang="living"></span>)
 					</p>
 				</div>
 			</section>
 			<section id="notfound">
+				<span class="material-icons">bug_report</span>
 				<p class="lang" data-lang="notfound-desc"></p>
 			</section>
 			<section id="error">
@@ -104,6 +102,16 @@
 				<a href="//petsnails.co.uk">petsnails.co.uk</a>
 				<a href="//theaquariumwiki.com">theaquariumwiki.com</a>
 				<a href="//wikipedia.org">wikipedia.org</a>
+			</section>
+			<section id="search">
+				<p class="lang" data-lang="search-desc" data-args="{{ species }}"></p>
+				<table style="width:100%">
+					<tr>
+						<td><input class="search" type="text" /></td>
+						<td width="1"><button onclick="search(event)" class="lang" data-lang="search"></button></td>
+					</tr>
+				</table>
+				<div id="searchresult"></div>
 			</section>
 			<section id="snail">
 			
@@ -123,7 +131,13 @@
 			</a>
 			<span id="close-menu" class="material-icons">close</span>
 			<div class="nav">
+				<a href="/" class="lang" data-lang="home"></a>
+			</div>
+			<div class="nav">
 				<a href="/sources" class="lang" data-lang="sources"></a>
+			</div>
+			<div class="nav">
+				<a href="/search" class="lang" data-lang="search"></a>
 			</div>
 			<div class="nav">
 				<p class="lang" data-lang="change-language"></p>

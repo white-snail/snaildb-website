@@ -1,6 +1,3 @@
-//const API = "http://localhost:8080/";
-const API = "https://api.snaildb.org/";
-
 function get(uri, callback) {
 	if(uri == preload.uri) {
 		callback(preload.data);
@@ -97,23 +94,56 @@ function createLink(content, uri) {
 	return a;
 }
 
+function createLangArgs(type, lang, args) {
+	var p = create(type);
+	p.className = "lang";
+	p.dataset.lang = lang;
+	p.dataset.args = args;
+	updateLang([p]);
+	return p;
+}
+
 function registerSearch() {
 	var searches = document.getElementsByClassName("search");
 	for(var i=0; i<searches.length; i++) {
-		searches[i].onkeydown = syncSearch;
-		searches[i].onkeyup = syncSearch;
-	}
-}
-
-function syncSearch(event) {
-	const value = event.target.value;
-	var searches = document.getElementsByClassName("search");
-	for(var i=0; i<searches.length; i++) {
-		searches[i].value = value;
+		searches[i].onkeydown = (event) => {
+			if(event.keyCode == 13) search(event);
+		};
 	}
 }
 
 function search(event) {
 	event.preventDefault();
-	console.log(event.target.getElementsByTagName("input")[0].value);
+	get("searchsnail?query=" + document.getElementById("search").getElementsByTagName("input")[0].value, (d) => {
+		var r = document.getElementById("searchresult");
+		r.innerText = "";
+		for(var key in d) {
+			const result = d[key];
+			if(key.endsWith("cies")) key += "-p";
+			var title = create("p");
+			title.appendChild(create("b", getLang(key), key));
+			title.appendChild(create("b", ` (${result.length})`));
+			r.appendChild(title);
+			if(result.length > 0) {
+				result.sort((a, b) => a.name.localeCompare(b.name));
+				for(var i in result) {
+					const res = result[i];
+					r.appendChild((() => {
+						switch(key) {
+							case "superfamilies":
+								return createLink(capitalize(res.name), `/snail/${res.name}`);
+							case "families":
+								return createLink(capitalize(res.name), `/snail/${res.superfamily}/${res.name}`);
+							case "genera":
+								return createLink(capitalize(res.name), `/snail/${res.superfamily}/${res.family}/${res.name}`);
+							case "species-p":
+								return createLink(capitalize(res.name) + ", " + capitalize(res.genus), `/snail/${res.superfamily}/${res.family}/${res.genus}/${res.name}`);
+							case "subspecies-p":
+								return createLink(capitalize(res.name) + ", " + capitalize(res.genus) + " " + capitalize(res.species), `/snail/${res.superfamily}/${res.family}/${res.genus}/${res.species}#${res.name}`);
+						}
+					})());
+				}
+			}
+		}
+	});
 }

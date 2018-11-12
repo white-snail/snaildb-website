@@ -16,11 +16,13 @@
 	"error": "Impossibile connettersi al database",
 	"error-desc": "E' possibile che la connessione ad internet sia assente o che il server API non sia disponibile",
 	
+	"home": "Home",
+	
 	"sources": "Fonti",
 	"sources-desc": "Fonti di informazione per il database delle chiocciole in ordine alfabetico.",
 	
-	"snails": "Chiocciole",
 	"search": "Cerca",
+	"search-desc": "Cerca tra più di $0 specie di chiocciole.",
 	"change-language": "Cambia lingua",
 	
 	"list-superfamilies": "Lista delle superfamiglie",
@@ -30,7 +32,7 @@
 	"superfamily": "superfamiglia",
 	"families": "Famiglies",
 	"family": "famiglia",
-	"genuses": "Generi",
+	"genera": "Generi",
 	"genus": "genere",
 	"species-p": "Specie",
 	"species": "specie",
@@ -45,6 +47,9 @@
 	"land-snail": "chiocciole di terra",
 	"freshwater-snail": "chiocciole d'acqua dolce",
 	"saltwater-snail": "chiocciole di mare",
+	"superfamily-desc": "$0 è una superfamiglia di $1.",
+	"family-desc": "$0 è una famiglia di $1 nella superfamiglia $2.",
+	"genus-desc": "$0 è un genere di $1 nella famiglia $2.",
 	"species-desc": "$0 è una specie di $2 $1 della famiglia $3.",
 	"species-desc-extinct": "$0 era una specie di $2 $1 della famiglia $3.",
 	

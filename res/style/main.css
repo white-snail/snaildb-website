@@ -60,6 +60,14 @@ footer {
 	font-size: 11px;
 }
 
+#notfound, #error {
+	text-align: center;
+}
+
+#notfound > span, #error > span {
+	font-size: 48px;
+}
+
 #sources > a {
 	display: block;
 }
@@ -103,6 +111,25 @@ header .material-icons {
 .flag {
 	width: 48px;
 	border-radius: 8px;
+}
+
+.search, button {
+	border: 1px solid silver;
+	border-radius: 3px;
+	padding: 8px;
+	outline: none !important;
+}
+
+.search {
+	width: calc(100% - 24px);
+}
+
+#searchresult > p {
+	margin-bottom: 8px;
+}
+
+#searchresult > a {
+	display: block;
 }
 
 .subspecies + .subspecies {

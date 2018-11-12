@@ -18,11 +18,14 @@
 	"error": "Cannot connect to the database",
 	"error-desc": "It is possible that there is no internet connection or the API server is down",
 	
+	"home": "Home",
+	
 	"sources": "Sources",
 	"sources-desc": "Sources of information for the snail database, alphabetically ordered.",
 	
-	"snails": "Snails",
 	"search": "Search",
+	"search-desc": "Search more than $0 species of snails.",
+	
 	"change-language": "Change language",
 	
 	"list-superfamilies": "List of superfamilies",
@@ -32,7 +35,7 @@
 	"superfamily": "superfamily",
 	"families": "Families",
 	"family": "family",
-	"genuses": "Genera",
+	"genera": "Genera",
 	"genus": "genus",
 	"species-p": "Species",
 	"species": "species",
@@ -47,6 +50,9 @@
 	"land-snail": "of land snails",
 	"freshwater-snail": "of freshwater snails",
 	"saltwater-snail": "of sea snails",
+	"superfamily-desc": "$0 is a superfamily $1.",
+	"family-desc": "$0 is a family $1 in the superfamily $2.",
+	"genus-desc": "$0 is a genus $1 in the family $2.",
 	"species-desc": "$0 is $1 species $2 in the family $3.",
 	"species-desc-extinct": "$0 was $1 species $2 in the family $3.",
 	

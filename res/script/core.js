@@ -44,48 +44,8 @@ function updateUri() {
 	}
 	
 	router = new Navigo(null);
-	router.on(() => {
-		// index page
-		document.title = getLang("title");
-		document.getElementById("title").innerText = getLang("title");
-		language.onchange = () => {
-			document.title = getLang("title");
-			document.getElementById("title").innerText = getLang("title");
-		};
-		get("getinfo/total", (d) => {
-			document.getElementById("superfamilies").innerText = d.superfamilies;
-			document.getElementById("families").innerText = d.families;
-			document.getElementById("genuses").innerText = d.genuses;
-			document.getElementById("species").innerText = d.species;
-		});
-		get("getinfo/speciesnotextinct", (d) => {
-			document.getElementById("living").dataset.args = d;
-			if(language.loaded) updateLang([document.getElementById("living")]);
-		});
-		function displaySuperfamiliesIndex() {
-			var list = document.getElementById("superfamilies-list");
-			list.innerText = "";
-			for(var key in data.snails.superfamily) {
-				var div = create("div");
-				div.appendChild(createLink(capitalize(key), `snail/${key}`));
-				list.appendChild(div);
-			}
-		}
-		if(data.snails.all) {
-			displaySuperfamiliesIndex();
-		} else {
-			get("getallsnails/superfamilies", (d) => {
-				for(var i in d) {
-					data.snails.superfamily[d[i].name] = d[i];
-				}
-				data.snails.all = true;
-				displaySuperfamiliesIndex();
-			});
-		}
-		showSection("index");
-	});
 	router.on({
-		"snail": () => {
+		"/snail": () => {
 			if(data.snails.all) {
 				displaySuperfamilies();
 			} else {
@@ -99,7 +59,7 @@ function updateUri() {
 				});
 			}
 		},
-		"snail/:superfamily": (params) => {
+		"/snail/:superfamily": (params) => {
 			showLoader();
 			const superfamily = params.superfamily.toLowerCase();
 			function handle(result) {
@@ -116,7 +76,7 @@ function updateUri() {
 				get(`getsnailbyname/${superfamily}`, handle);
 			}
 		},
-		"snail/:superfamily/:family": (params) => {
+		"/snail/:superfamily/:family": (params) => {
 			showLoader();
 			const superfamily = params.superfamily.toLowerCase();
 			const family = params.family.toLowerCase();
@@ -134,7 +94,7 @@ function updateUri() {
 				get(`getsnailbyname/${superfamily}/${family}`, handle);
 			}
 		},
-		"snail/:superfamily/:family/:genus": (params) => {
+		"/snail/:superfamily/:family/:genus": (params) => {
 			showLoader();
 			const superfamily = params.superfamily.toLowerCase();
 			const family = params.family.toLowerCase();
@@ -153,7 +113,7 @@ function updateUri() {
 				get(`getsnailbyname/${superfamily}/${family}/${genus}`, handle);
 			}
 		},
-		"snail/:superfamily/:family/:genus/:species": (params) => {
+		"/snail/:superfamily/:family/:genus/:species": (params) => {
 			showLoader();
 			const superfamily = params.superfamily.toLowerCase();
 			const family = params.family.toLowerCase();
@@ -173,7 +133,7 @@ function updateUri() {
 				get(`getsnailbyname/${superfamily}/${family}/${genus}/${species}`, handle);
 			}
 		},
-		"taxonomer": () => {
+		"/taxonomer": () => {
 			if(data.taxonomers.all) {
 				displayTaxonomers();
 			} else {
@@ -185,7 +145,7 @@ function updateUri() {
 				});
 			}
 		},
-		"taxonomer/:taxonomer": (params) => {
+		"/taxonomer/:taxonomer": (params) => {
 			const taxonomer = params.taxonomer;
 			if(data.taxonomers[taxonomer]) {
 				displayTaxonomer(taxonomer);
@@ -201,12 +161,52 @@ function updateUri() {
 				});
 			}
 		},
-		"sources": () => {
+		"/sources": () => {
 			setTitle(getLang("sources"), "sources");
 			showSection("sources")
 		},
-		"search": () => {
-			//TODO
+		"/search": () => {
+			setTitle(getLang("search"), "search");
+			showSection("search");
+		},
+		"/": () => {
+			document.title = getLang("title");
+			document.getElementById("title").innerText = getLang("title");
+			language.onchange = () => {
+				document.title = getLang("title");
+				document.getElementById("title").innerText = getLang("title");
+			};
+			get("getinfo/total", (d) => {
+				document.getElementById("superfamilies").innerText = d.superfamilies;
+				document.getElementById("families").innerText = d.families;
+				document.getElementById("genera").innerText = d.genuses;
+				document.getElementById("species").innerText = d.species;
+			});
+			get("getinfo/speciesnotextinct", (d) => {
+				document.getElementById("living").dataset.args = d;
+				if(language.loaded) updateLang([document.getElementById("living")]);
+			});
+			function displaySuperfamiliesIndex() {
+				var list = document.getElementById("superfamilies-list");
+				list.innerText = "";
+				for(var key in data.snails.superfamily) {
+					var div = create("div");
+					div.appendChild(createLink(capitalize(key), `/snail/${key}`));
+					list.appendChild(div);
+				}
+			}
+			if(data.snails.all) {
+				displaySuperfamiliesIndex();
+			} else {
+				get("getallsnails/superfamilies", (d) => {
+					for(var i in d) {
+						data.snails.superfamily[d[i].name] = d[i];
+					}
+					data.snails.all = true;
+					displaySuperfamiliesIndex();
+				});
+			}
+			showSection("index");
 		}
 	});
 	router.notFound(notFound);
