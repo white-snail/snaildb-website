@@ -139,7 +139,7 @@ function search(event) {
 							case "species-p":
 								return createLink(capitalize(res.name) + ", " + capitalize(res.genus), `/snail/${res.superfamily}/${res.family}/${res.genus}/${res.name}`);
 							case "subspecies-p":
-								return createLink(capitalize(res.name) + ", " + capitalize(res.genus) + " " + capitalize(res.species), `/snail/${res.superfamily}/${res.family}/${res.genus}/${res.species}#${res.name}`);
+								return createLink(capitalize(res.name) + ", " + capitalize(res.species) + ", " + capitalize(res.genus), `/snail/${res.superfamily}/${res.family}/${res.genus}/${res.species}#${res.name}`);
 						}
 					})());
 				}

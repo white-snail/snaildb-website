@@ -90,10 +90,10 @@ function displaySpecies(superfamily, family, genus, species) {
 			table.appendChild(tr);
 		}
 		if(d.minWidth || d.maxWidth) {
-			add(create("span", getLang("width"), "width"), create("span", d.maxWidth==undefined||d.maxWidth==d.minWidth ? d.minWidth : (d.minWidth==undefined ? d.maxWidth : `${d.minWidth}-${d.maxWidth}`) + " mm"));
+			add(create("span", getLang("width"), "width"), create("span", d.maxWidth==undefined||d.maxWidth==d.minWidth ? `~${d.minWidth}` : (d.minWidth==undefined ? `~${d.maxWidth}` : `${d.minWidth}-${d.maxWidth}`) + " mm"));
 		}
 		if(d.minHeight || d.maxHeight) {
-			add(create("span", getLang("height"), "height"), create("span", d.maxHeight==undefined||d.maxHeight==d.minHeight ? d.minHeight : (d.minHeight==undefined ? d.maxHeight : `${d.minHeight}-${d.maxHeight}`) + " mm"));
+			add(create("span", getLang("height"), "height"), create("span", d.maxHeight==undefined||d.maxHeight==d.minHeight ? `~${d.minHeight}` : (d.minHeight==undefined ? `~${d.maxHeight}` : `${d.minHeight}-${d.maxHeight}`) + " mm"));
 		}
 		if(d.lifespan) {
 			var lifespan = create("span");
@@ -133,7 +133,7 @@ function displayTaxonomers() {
 	for(var i in data.taxonomers.list) {
 		const t = data.taxonomers.list[i];
 		var div = create("div");
-		div.appendChild(createLink(t.name.length ? `${t.surname}, ${t.name}` : t.surname, `taxonomer/${t.surname.toLowerCase()}`));
+		div.appendChild(createLink(t.name.length ? `${t.surname}, ${t.name}` : t.surname, `taxonomer/${t.id}`));
 		snail.appendChild(div);
 	}
 	showSection("snail");

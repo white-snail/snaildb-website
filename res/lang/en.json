@@ -54,7 +54,7 @@
 	"family-desc": "$0 is a family $1 in the superfamily $2.",
 	"genus-desc": "$0 is a genus $1 in the family $2.",
 	"species-desc": "$0 is $1 species $2 in the family $3.",
-	"species-desc-extinct": "$0 was $1 species $2 in the family $3.",
+	"species-desc-extinct": "$0 was a species $2 in the family $3.",
 	
 	"width": "Width:",
 	"height": "Height:",

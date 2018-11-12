@@ -30,7 +30,7 @@
 	
 	"superfamilies": "Superfamiglie",
 	"superfamily": "superfamiglia",
-	"families": "Famiglies",
+	"families": "Famiglie",
 	"family": "famiglia",
 	"genera": "Generi",
 	"genus": "genere",
@@ -51,7 +51,7 @@
 	"family-desc": "$0 è una famiglia di $1 nella superfamiglia $2.",
 	"genus-desc": "$0 è un genere di $1 nella famiglia $2.",
 	"species-desc": "$0 è una specie di $2 $1 della famiglia $3.",
-	"species-desc-extinct": "$0 era una specie di $2 $1 della famiglia $3.",
+	"species-desc-extinct": "$0 era una specie di $2 della famiglia $3.",
 	
 	"width": "Larghezza:",
 	"height": "Altezza:",
