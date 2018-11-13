@@ -1,0 +1,94 @@
+[1mdiff --git a/res/index.html b/res/index.html[m
+[1mindex a9ca2c7..d5ce6e5 100644[m
+[1m--- a/res/index.html[m
+[1m+++ b/res/index.html[m
+[36m@@ -4,6 +4,7 @@[m
+ 		<meta charset="UTF-8" />[m
+ 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />[m
+ 		<meta name="theme-color" content="#24292e" />[m
+[32m+[m		[32m<meta name="google" value="notranslate" />[m
+ 		<meta name="description" content="{{ description }}" />[m
+ 		<meta property="og:title" content="{{ title }}" />[m
+ 		<meta property="og:description" content="{{ description }}" />[m
+[1mdiff --git a/res/script/core.js b/res/script/core.js[m
+[1mindex bafb3e3..ff00404 100644[m
+[1m--- a/res/script/core.js[m
+[1m+++ b/res/script/core.js[m
+[36m@@ -189,9 +189,13 @@[m [mfunction updateUri() {[m
+ 			function displaySuperfamiliesIndex() {[m
+ 				var list = document.getElementById("superfamilies-list");[m
+ 				list.innerText = "";[m
+[31m-				for(var key in data.snails.superfamily) {[m
+[32m+[m				[32mvar keys = Object.keys(data.snails.superfamily);[m
+[32m+[m				[32mkeys.sort();[m
+[32m+[m				[32mfor(var i in keys) {[m
+[32m+[m					[32mconst key = keys[i];[m
+ 					var div = create("div");[m
+ 					div.appendChild(createLink(capitalize(key), `/snail/${key}`));[m
+[32m+[m					[32mtaxonomers(data.snails.superfamily[key], div);[m
+ 					list.appendChild(div);[m
+ 				}[m
+ 			}[m
+[1mdiff --git a/res/script/snail.js b/res/script/snail.js[m
+[1mindex 110d61e..ef93435 100644[m
+[1m--- a/res/script/snail.js[m
+[1m+++ b/res/script/snail.js[m
+[36m@@ -100,27 +100,52 @@[m [mfunction displaySpecies(superfamily, family, genus, species) {[m
+ 			lifespan.className = "lang";[m
+ 			if(d.lifespan < 12) {[m
+ 				lifespan.dataset.lang = "lifespan-" + (d.lifespan==1 ? "month" : "months");[m
+[32m+[m				[32mlifespan.dataset.args = d.lifespan;[m
+ 			} else {[m
+[31m-				d.lifespan /= 12;[m
+[31m-				lifespan.dataset.lang = "lifespan-" + (d.lifespan==1 ? "year" : "years");[m
+[32m+[m				[32mlifespan.dataset.lang = "lifespan-" + (d.lifespan==12 ? "year" : "years");[m
+[32m+[m				[32mlifespan.dataset.args = d.lifespan / 12;[m
+ 			}[m
+[31m-			lifespan.dataset.args = d.lifespan;[m
+ 			updateLang([lifespan]);[m
+ 			add(create("span", getLang("lifespan"), "lifespan"), lifespan);[m
+ 		}[m
+ 		snail.appendChild(table);[m
+ 		if(d.location) {[m
+[32m+[m			[32mconst _002 = ['DZ', 'EG', 'EH', 'LY', 'MA', 'SD', 'SS', 'TN', 'BF', 'BJ', 'CI', 'CV', 'GH', 'GM', 'GN', 'GW', 'LR', 'ML', 'MR', 'NE', 'NG', 'SH', 'SL', 'SN', 'TG', 'AO', 'CD', 'ZR', 'CF', 'CG', 'CM', 'GA', 'GQ', 'ST', 'TD', 'BI', 'DJ', 'ER', 'ET', 'KE', 'KM', 'MG', 'MU', 'MW', 'MZ', 'RE', 'RW', 'SC', 'SO', 'TZ', 'UG', 'YT', 'ZM', 'ZW', 'BW', 'LS', 'NA', 'SZ', 'ZA'];[m
+[32m+[m			[32mconst _005 = ['AR', 'BO', 'BR', 'CL', 'CO', 'EC', 'FK', 'GF', 'GY', 'PE', 'PY', 'SR', 'UY', 'VE'];[m
+[32m+[m			[32mconst _009 = ['AU', 'NF', 'NZ', 'FJ', 'NC', 'PG', 'SB', 'VU', 'FM', 'GU', 'KI', 'MH', 'MP', 'NR', 'PW', 'AS', 'CK', 'NU', 'PF', 'PN', 'TK', 'TO', 'TV', 'WF', 'WS'];[m
+[32m+[m			[32mconst _013 = ['BZ', 'CR', 'GT', 'HN', 'MX', 'NI', 'PA', 'SV', 'AG', 'AI', 'AN', 'AW', 'BB', 'BL', 'BS', 'CU', 'DM', 'DO', 'GD', 'GP', 'HT', 'JM', 'KN', 'KY', 'LC', 'MF', 'MQ', 'MS', 'PR', 'TC', 'TT', 'VC', 'VG', 'VI'];[m
+[32m+[m			[32mconst _021 = ['BM', 'CA', 'GL', 'PM', 'US'];[m
+[32m+[m			[32mconst _142 = ['TM', 'TJ', 'KG', 'KZ', 'UZ', 'CN', 'HK', 'JP', 'KP', 'KR', 'MN', 'MO', 'TW', 'AF', 'BD', 'BT', 'IN', 'IR', 'LK', 'MV', 'NP', 'PK', 'BN', 'ID', 'KH', 'LA', 'MM', 'BU', 'MY', 'PH', 'SG', 'TH', 'TL', 'TP', 'VN', 'AE', 'AM', 'AZ', 'BH', 'CY', 'GE', 'IL', 'IQ', 'JO', 'KW', 'LB', 'OM', 'PS', 'QA', 'SA', 'NT', 'SY', 'TR', 'YE', 'YD'];[m
+[32m+[m			[32mconst _150 = ['GG', 'JE', 'AX', 'DK', 'EE', 'FI', 'FO', 'GB', 'IE', 'IM', 'IS', 'LT', 'LV', 'NO', 'SE', 'SJ', 'AT', 'BE', 'CH', 'DE', 'DD', 'FR', 'FX', 'LI', 'LU', 'MC', 'NL', 'BG', 'BY', 'CZ', 'HU', 'MD', 'PL', 'RO', 'RU', 'SU', 'SK', 'UA', 'AD', 'AL', 'BA', 'ES', 'GI', 'GR', 'HR', 'IT', 'ME', 'MK', 'MT', 'CS', 'RS', 'PT', 'SI', 'SM', 'VA', 'YU'];[m
+[32m+[m			[32mvar regions = {'002': false, '005': false, '009': false, '013': false, '021': false, '142': false, '150': false};[m
+ 			const locations = d.location.split(",");[m
+ 			var iso = [["Country"]];[m
+ 			for(var i in locations) {[m
+ 				const s = locations[i].split(".");[m
+[31m-				iso.push([s[0].toUpperCase()]);[m
+[32m+[m				[32mconst code = s[0].toUpperCase();[m
+[32m+[m				[32mfor(var key in regions) {[m
+[32m+[m					[32mif(eval("_" + key).indexOf(code) != -1) regions[key] = true;[m
+[32m+[m				[32m}[m
+[32m+[m				[32miso.push([code]);[m
+ 			}[m
+[32m+[m			[32mconsole.log(iso);[m
+[32m+[m			[32mconsole.log(regions);[m
+ 			var map = create("div");[m
+[31m-			map.style.height = "384px";[m
+ 			div.appendChild(map);[m
+ 			var chart = new google.visualization.GeoChart(map);[m
+[31m-			chart.draw(google.visualization.arrayToDataTable(iso), {});[m
+[32m+[m			[32mvar region = "world";[m
+[32m+[m			[32mvar single = true;[m
+[32m+[m			[32mfor(var key in regions) {[m
+[32m+[m				[32mif(regions[key]) {[m
+[32m+[m					[32mif(single) {[m
+[32m+[m						[32mregion = key;[m
+[32m+[m						[32msingle = false;[m
+[32m+[m					[32m} else {[m
+[32m+[m						[32mregion = "world";[m
+[32m+[m					[32m}[m
+[32m+[m				[32m}[m
+[32m+[m			[32m}[m
+[32m+[m			[32mchart.draw(google.visualization.arrayToDataTable(iso), {region: region});[m
+ 		}[m
+ 		snail.appendChild(div);[m
+ 	}[m

@@ -100,27 +100,52 @@ function displaySpecies(superfamily, family, genus, species) {
 			lifespan.className = "lang";
 			if(d.lifespan < 12) {
 				lifespan.dataset.lang = "lifespan-" + (d.lifespan==1 ? "month" : "months");
+				lifespan.dataset.args = d.lifespan;
 			} else {
-				d.lifespan /= 12;
-				lifespan.dataset.lang = "lifespan-" + (d.lifespan==1 ? "year" : "years");
+				lifespan.dataset.lang = "lifespan-" + (d.lifespan==12 ? "year" : "years");
+				lifespan.dataset.args = d.lifespan / 12;
 			}
-			lifespan.dataset.args = d.lifespan;
 			updateLang([lifespan]);
 			add(create("span", getLang("lifespan"), "lifespan"), lifespan);
 		}
 		snail.appendChild(table);
 		if(d.location) {
+			const _002 = ['DZ', 'EG', 'EH', 'LY', 'MA', 'SD', 'SS', 'TN', 'BF', 'BJ', 'CI', 'CV', 'GH', 'GM', 'GN', 'GW', 'LR', 'ML', 'MR', 'NE', 'NG', 'SH', 'SL', 'SN', 'TG', 'AO', 'CD', 'ZR', 'CF', 'CG', 'CM', 'GA', 'GQ', 'ST', 'TD', 'BI', 'DJ', 'ER', 'ET', 'KE', 'KM', 'MG', 'MU', 'MW', 'MZ', 'RE', 'RW', 'SC', 'SO', 'TZ', 'UG', 'YT', 'ZM', 'ZW', 'BW', 'LS', 'NA', 'SZ', 'ZA'];
+			const _005 = ['AR', 'BO', 'BR', 'CL', 'CO', 'EC', 'FK', 'GF', 'GY', 'PE', 'PY', 'SR', 'UY', 'VE'];
+			const _009 = ['AU', 'NF', 'NZ', 'FJ', 'NC', 'PG', 'SB', 'VU', 'FM', 'GU', 'KI', 'MH', 'MP', 'NR', 'PW', 'AS', 'CK', 'NU', 'PF', 'PN', 'TK', 'TO', 'TV', 'WF', 'WS'];
+			const _013 = ['BZ', 'CR', 'GT', 'HN', 'MX', 'NI', 'PA', 'SV', 'AG', 'AI', 'AN', 'AW', 'BB', 'BL', 'BS', 'CU', 'DM', 'DO', 'GD', 'GP', 'HT', 'JM', 'KN', 'KY', 'LC', 'MF', 'MQ', 'MS', 'PR', 'TC', 'TT', 'VC', 'VG', 'VI'];
+			const _021 = ['BM', 'CA', 'GL', 'PM', 'US'];
+			const _142 = ['TM', 'TJ', 'KG', 'KZ', 'UZ', 'CN', 'HK', 'JP', 'KP', 'KR', 'MN', 'MO', 'TW', 'AF', 'BD', 'BT', 'IN', 'IR', 'LK', 'MV', 'NP', 'PK', 'BN', 'ID', 'KH', 'LA', 'MM', 'BU', 'MY', 'PH', 'SG', 'TH', 'TL', 'TP', 'VN', 'AE', 'AM', 'AZ', 'BH', 'CY', 'GE', 'IL', 'IQ', 'JO', 'KW', 'LB', 'OM', 'PS', 'QA', 'SA', 'NT', 'SY', 'TR', 'YE', 'YD'];
+			const _150 = ['GG', 'JE', 'AX', 'DK', 'EE', 'FI', 'FO', 'GB', 'IE', 'IM', 'IS', 'LT', 'LV', 'NO', 'SE', 'SJ', 'AT', 'BE', 'CH', 'DE', 'DD', 'FR', 'FX', 'LI', 'LU', 'MC', 'NL', 'BG', 'BY', 'CZ', 'HU', 'MD', 'PL', 'RO', 'RU', 'SU', 'SK', 'UA', 'AD', 'AL', 'BA', 'ES', 'GI', 'GR', 'HR', 'IT', 'ME', 'MK', 'MT', 'CS', 'RS', 'PT', 'SI', 'SM', 'VA', 'YU'];
+			var regions = {'002': false, '005': false, '009': false, '013': false, '021': false, '142': false, '150': false};
 			const locations = d.location.split(",");
 			var iso = [["Country"]];
 			for(var i in locations) {
 				const s = locations[i].split(".");
-				iso.push([s[0].toUpperCase()]);
+				const code = s[0].toUpperCase();
+				for(var key in regions) {
+					if(eval("_" + key).indexOf(code) != -1) regions[key] = true;
+				}
+				iso.push([code]);
 			}
+			console.log(iso);
+			console.log(regions);
 			var map = create("div");
-			map.style.height = "384px";
 			div.appendChild(map);
 			var chart = new google.visualization.GeoChart(map);
-			chart.draw(google.visualization.arrayToDataTable(iso), {});
+			var region = "world";
+			var single = true;
+			for(var key in regions) {
+				if(regions[key]) {
+					if(single) {
+						region = key;
+						single = false;
+					} else {
+						region = "world";
+					}
+				}
+			}
+			chart.draw(google.visualization.arrayToDataTable(iso), {region: region});
 		}
 		snail.appendChild(div);
 	}

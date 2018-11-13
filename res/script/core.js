@@ -189,9 +189,13 @@ function updateUri() {
 			function displaySuperfamiliesIndex() {
 				var list = document.getElementById("superfamilies-list");
 				list.innerText = "";
-				for(var key in data.snails.superfamily) {
+				var keys = Object.keys(data.snails.superfamily);
+				keys.sort();
+				for(var i in keys) {
+					const key = keys[i];
 					var div = create("div");
 					div.appendChild(createLink(capitalize(key), `/snail/${key}`));
+					taxonomers(data.snails.superfamily[key], div);
 					list.appendChild(div);
 				}
 			}
