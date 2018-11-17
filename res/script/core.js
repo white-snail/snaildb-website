@@ -83,12 +83,13 @@ function updateUri() {
 			function handle(result) {
 				if(handleImpl(result)) {
 					setData(result.result, "snails", "superfamily", superfamily, "family", family);
-					data.snails.superfamily[superfamily].family[family].genuses.sort((a, b) => a.name.localeCompare(b.name));
+					//TODO sort subfamilies
+					data.snails.superfamily[superfamily].family[family].genera.sort((a, b) => a.name.localeCompare(b.name));
 					displayFamily(superfamily, family);
 				}
 			}
 			if(getData("snails", "superfamily", superfamily, "family", family, "id")) {
-				if(data.snails.superfamily[superfamily].family[family].genuses) displayFamily(superfamily, family);
+				if(data.snails.superfamily[superfamily].family[family].genera) displayFamily(superfamily, family);
 				else get("getsnailbyid/family/" + data.snails.superfamily[superfamily].family[family].id, handle);
 			} else {
 				get(`getsnailbyname/${superfamily}/${family}`, handle);

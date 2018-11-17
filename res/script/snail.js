@@ -29,12 +29,33 @@ function displayFamily(superfamily, family) {
 	var snail = clean();
 	setTitle(capitalize(family));
 	addHeader(superfamily, family);
-	for(var genus in data.snails.superfamily[superfamily].family[family].genuses) {
-		var d = data.snails.superfamily[superfamily].family[family].genuses[genus];
+	function displaySubfamily(d, space) {
 		var div = create("div");
+		if(space) div.appendChild(create("span", space));
 		div.appendChild(createLink(capitalize(d.name), `/snail/${superfamily}/${family}/${d.name}`));
 		taxonomers(d, div);
 		snail.appendChild(div);
+	}
+	const fam = data.snails.superfamily[superfamily].family[family];
+	var unbundled = false;
+	for(var i in fam.genera) {
+		if(fam.genera[i].subfamily == null) {
+			displaySubfamily(fam.genera[i]);
+			unbundled = true;
+		}
+	}
+	for(var i in fam.subfamilies) {
+		const subfam = fam.subfamilies[i];
+		var div = create("div");
+		if(unbundled || i > 0) div.style.marginTop = "16px";
+		div.style.marginBottom = "4px";
+		div.appendChild(create("span", getLang("subfamily"), "subfamily"));
+		div.appendChild(create("span", "&nbsp;" + capitalize(subfam.name)));
+		taxonomers(subfam, div);
+		snail.appendChild(div);
+		for(var j in fam.genera) {
+			if(fam.genera[j].subfamily == subfam.id) displaySubfamily(fam.genera[j], "&emsp;");
+		}
 	}
 	showSection("snail");
 }
@@ -90,10 +111,10 @@ function displaySpecies(superfamily, family, genus, species) {
 			table.appendChild(tr);
 		}
 		if(d.minWidth || d.maxWidth) {
-			add(create("span", getLang("width"), "width"), create("span", d.maxWidth==undefined||d.maxWidth==d.minWidth ? `~${d.minWidth}` : (d.minWidth==undefined ? `~${d.maxWidth}` : `${d.minWidth}-${d.maxWidth}`) + " mm"));
+			add(create("span", getLang("width"), "width"), create("span", d.maxWidth==undefined||d.maxWidth==d.minWidth ? `~${d.minWidth} mm` : (d.minWidth==undefined ? `~${d.maxWidth}` : `${d.minWidth}-${d.maxWidth}`) + " mm"));
 		}
 		if(d.minHeight || d.maxHeight) {
-			add(create("span", getLang("height"), "height"), create("span", d.maxHeight==undefined||d.maxHeight==d.minHeight ? `~${d.minHeight}` : (d.minHeight==undefined ? `~${d.maxHeight}` : `${d.minHeight}-${d.maxHeight}`) + " mm"));
+			add(create("span", getLang("height"), "height"), create("span", d.maxHeight==undefined||d.maxHeight==d.minHeight ? `~${d.minHeight} mm` : (d.minHeight==undefined ? `~${d.maxHeight}` : `${d.minHeight}-${d.maxHeight}`) + " mm"));
 		}
 		if(d.lifespan) {
 			var lifespan = create("span");
@@ -108,7 +129,7 @@ function displaySpecies(superfamily, family, genus, species) {
 			updateLang([lifespan]);
 			add(create("span", getLang("lifespan"), "lifespan"), lifespan);
 		}
-		snail.appendChild(table);
+		div.appendChild(table);
 		if(d.location) {
 			const _002 = ['DZ', 'EG', 'EH', 'LY', 'MA', 'SD', 'SS', 'TN', 'BF', 'BJ', 'CI', 'CV', 'GH', 'GM', 'GN', 'GW', 'LR', 'ML', 'MR', 'NE', 'NG', 'SH', 'SL', 'SN', 'TG', 'AO', 'CD', 'ZR', 'CF', 'CG', 'CM', 'GA', 'GQ', 'ST', 'TD', 'BI', 'DJ', 'ER', 'ET', 'KE', 'KM', 'MG', 'MU', 'MW', 'MZ', 'RE', 'RW', 'SC', 'SO', 'TZ', 'UG', 'YT', 'ZM', 'ZW', 'BW', 'LS', 'NA', 'SZ', 'ZA'];
 			const _005 = ['AR', 'BO', 'BR', 'CL', 'CO', 'EC', 'FK', 'GF', 'GY', 'PE', 'PY', 'SR', 'UY', 'VE'];
@@ -128,8 +149,6 @@ function displaySpecies(superfamily, family, genus, species) {
 				}
 				iso.push([code]);
 			}
-			console.log(iso);
-			console.log(regions);
 			var map = create("div");
 			div.appendChild(map);
 			var chart = new google.visualization.GeoChart(map);
