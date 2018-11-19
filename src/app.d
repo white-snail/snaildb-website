@@ -40,7 +40,7 @@ void main() {
 	server.router.add(new IndexRouter());
 	
 	// robots.txt
-	server.router.add(Get("robots.txt"), new CachedResource("text/plain", read("res/robots.txt")));
+	server.router.add(Get("robots.txt"), new Resource("text/plain", read("res/robots.txt")));
 	
 	// icon
 	server.router.add(Get("favicon.ico"), new CachedResource("image/x-icon", read("res/favicon.ico")));
@@ -219,8 +219,8 @@ class IndexRouter {
 		if(lptr) {
 			string[string] data;
 			data["lang"] = lang;
-			data["title"] = this.lang[lang]["title"];
-			data["description"] = this.lang[lang]["about-desc-0"];
+			data["title"] = (*lptr)["title"];
+			data["description"] = (*lptr)["about-desc-0"];
 			this.manifest.apply(data).apply(request, response);
 		} else {
 			response.status = StatusCodes.notFound;

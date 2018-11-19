@@ -12,6 +12,9 @@
 	"about-desc-3": "Questo sito fornisce un'interfaccia alle API di SnailDB, permettendo di visualizzare informazioni sulle chiocciole tramite l'interfaccia web. Le API possono anche essere usato in altri siti web e sono documentate (in inglese) nella pagina seguente:",
 	"about-title-4": "Come posso contribuire?",
 	"about-desc-4": "",
+	
+	"incomplete": "incompleta",
+	
 	"stats": "Statistiche",
 	
 	"loading": "Caricamento...",

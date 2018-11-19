@@ -12,6 +12,9 @@
 	"about-desc-3": "This website provides an interface to the SnailDB API, allowing the visualization of snail informations through the web interface. The APIs can also be used in other websites and are documented at the following page:",
 	"about-title-4": "How can I contribute?",
 	"about-desc-4": "",
+	
+	"incomplete": "incomplete",
+	
 	"stats": "Stats",
 	
 	"loading": "Loading...",

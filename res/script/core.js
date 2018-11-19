@@ -197,6 +197,7 @@ function updateUri() {
 					var div = create("div");
 					div.appendChild(createLink(capitalize(key), `/snail/${key}`));
 					taxonomers(data.snails.superfamily[key], div);
+					if(!data.snails.superfamily[key].complete) div.appendChild(create("strong", "&nbsp;*"));
 					list.appendChild(div);
 				}
 			}
