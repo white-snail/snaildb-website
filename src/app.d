@@ -36,7 +36,7 @@ void main() {
 
 	Server server = new Server();
 	
-	// index
+	// index and manifest
 	server.router.add(new IndexRouter());
 	
 	// robots.txt
@@ -78,7 +78,7 @@ class IndexRouter {
 
 	private string[string] raw;
 	private string[string][string] lang;
-	private TemplatedResource index;
+	private TemplatedResource index, manifest;
 	
 	private string species;
 	
@@ -97,10 +97,11 @@ class IndexRouter {
 			}
 		}
 		index = new TemplatedResource("text/html", read("res/index.html"));
+		manifest = new TemplatedResource("application/manifest+json", read("res/manifest.webmanifest"));
 		species = to!string(cast(int)(cast(float)parseJSON(g(api ~ "getinfo/total"))["species"].integer / 100) * 100);
 	}
 
-	@Get(".*") _(Request request, Response response) {
+	@Get(".*") _index(Request request, Response response) {
 		debug load();
 		immutable _lang = request.headers.get("accept-language", "");
 		immutable lang = _lang.length >= 2 && _lang[0..2] in this.lang ? _lang[0..2] : "en";
@@ -210,6 +211,20 @@ class IndexRouter {
 			}
 		}
 		this.index.apply(data).apply(request, response);
+	}
+	
+	@Get("manifest-([a-z]{2}).webmanifest") _manifest(Request request, Response response, string lang) {
+		debug load();
+		auto lptr = lang in this.lang;
+		if(lptr) {
+			string[string] data;
+			data["lang"] = lang;
+			data["title"] = this.lang[lang]["title"];
+			data["description"] = this.lang[lang]["about-desc-0"];
+			this.manifest.apply(data).apply(request, response);
+		} else {
+			response.status = StatusCodes.notFound;
+		}
 	}
 
 }

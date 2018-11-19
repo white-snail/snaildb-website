@@ -16,8 +16,10 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" href="/styles.css" />
+		<link rel="canonical" href="{{ url }}" />
+		<link rel="manifest" href="/manifest-{{ lang }}.webmanifest" />
 		<script src="https://unpkg.com/navigo@6.0.2/lib/navigo.min.js"></script>
-		<script src="https://www.gstatic.com/charts/loader.js"></script>
+		<script async src="https://www.gstatic.com/charts/loader.js"></script>
 		<script>
 			google.charts.load('current', {
 				'packages': ['geochart'],
@@ -72,7 +74,7 @@
 				<div class="homepage">
 					<b class="lang" data-lang="about-title-3"></b>
 					<p class="lang" data-lang="about-desc-3"></p>
-					<a id="api-docs" target="_blank"></a>
+					<a id="api-docs" target="_blank" rel="noreferrer"></a>
 				</div>
 				<div class="homepage">
 					<b class="lang" data-lang="about-title-4"></b>
@@ -134,7 +136,7 @@
 		</div>
 		<div id="sidebar">
 			<a href="/">
-				<img id="logo" src="/img/logo.png" />
+				<img id="logo" src="/img/logo.png" alt="SnailDB" />
 			</a>
 			<span id="close-menu" class="material-icons">close</span>
 			<div class="nav">
@@ -148,8 +150,8 @@
 			</div>
 			<div class="nav">
 				<p class="lang" data-lang="change-language"></p>
-				<img class="flag" src="/img/uk.svg" onclick="changeLanguage('en')" />
-				<img class="flag" src="/img/it.svg" onclick="changeLanguage('it')" />
+				<img class="flag" src="/img/uk.svg" onclick="changeLanguage('en')" alt="English" />
+				<img class="flag" src="/img/it.svg" onclick="changeLanguage('it')" alt="Italiano" />
 				<!--<img class="flag" src="/img/es.svg" onclick="changeLanguage('es')" />-->
 			</div>
 		</div>

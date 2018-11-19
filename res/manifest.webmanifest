@@ -1,0 +1,15 @@
+{
+	"name": "{{ title }}",
+	"short_name": "SnailDB",
+	"display": "minimal-ui",
+	"theme_color": "#24292e",
+	"background_color": "#24292e",
+	"lang": "{{ lang }}",
+	"description": "{{ description }}",
+	"icons": [
+		{
+			"src": "/favicon.ico",
+			"sizes": "16x16 32x32 64x64 96x96"
+		}
+	]
+}
